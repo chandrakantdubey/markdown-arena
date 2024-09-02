@@ -4,7 +4,29 @@
 
 ![Markdown Logo](https://dev-to-uploads.s3.amazonaws.com/i/snq5gst9tw245shyavk2.png)
 
-# What is markdown
+# Table of Contents
+
+1. [Markdown Introduction](#markdown-introduction)
+2. [What is markdown](#what-is-markdown)
+3. [Article Example](#article-example)
+4. [Why?](#why)
+5. [paragraphs](#paragraphs)
+6. [headings](#headings)
+7. [flavours of markdown](#flavours-of-markdown)
+8. [format text](#format-text)
+9. [emojis](#emojis)
+10. [code blocks](#code-blocks)
+11. [links](#links)
+12. [images](#images)
+13. [quotes](#quotes)
+14. [horizontal line](#horizontal-line)
+15. [lists](#lists)
+16. [tables](#tables)
+17. [checklists](#checklists)
+18. [table of contents](#table-of-contents)
+19. [footnotes](#footnotes)
+
+## What is markdown
 
 - easy to use markup language
 - format text with certain symbols
@@ -113,3 +135,13 @@ const simpleVar = 30;
 
 - [ ] uncheked
 - [x] checked
+
+### table of contents
+
+- [heading](#heading)
+
+### footnotes
+
+Here is a footnote reference.[^1]
+
+[^1]: Here is the footnote.
