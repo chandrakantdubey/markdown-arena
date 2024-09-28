@@ -28,10 +28,6 @@
 24. [FootNote](#footnote)
 25. [Comments](#comments)
 
-Many Thanks to all the `Stargazers` who has supported this project with stars(⭐)
-
-[![Thanks to all stargazers](https://git-lister.onrender.com/api/stars/atapas/markdown-cheatsheet?limit=15)](https://github.com/atapas/markdown-cheatsheet/stargazers)
-
 ## Headings
 
 **Syntax:**
