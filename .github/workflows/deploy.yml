@@ -2,7 +2,7 @@ name: Deploy Vite app to GitHub Pages
 
 on:
   push:
-    branches: [main] # 👈 change if your default branch is not "main"
+    branches: [main]
 
 permissions:
   contents: write
@@ -27,7 +27,9 @@ jobs:
         run: npm ci
 
       - name: Build project
-        run: npm run build
+        run: |
+          npm run build
+          touch dist/.nojekyll  # 👈 Disable Jekyll so Liquid errors go away
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
