@@ -1,0 +1,179 @@
+@import "tailwindcss";
+
+:root {
+  --color-bg: #0a0518;
+  --color-bg-secondary: #120c29;
+  /* [READABILITY] Brighter, slightly less saturated text color for comfort */
+  --color-text: #e8e0ff;
+  --color-text-dim: #988fc7;
+  --color-neon-blue: #00e5ff;
+  --color-neon-pink: #ff00aa;
+  --color-neon-violet: #b76bff; /* [READABILITY] Brightened for better contrast */
+  --color-error: #ff3333;
+  --font-heading: "Orbitron", sans-serif;
+  --font-body: "Share Tech Mono", monospace;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+}
+
+/* --- NEON THEME V2 (READABILITY FOCUSED) --- */
+
+/* Markdown viewer base styles */
+.wmde-markdown-var {
+  --color-canvas-default: transparent !important;
+}
+.wmde-markdown-var .wmde-markdown {
+  background: transparent;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  /* [READABILITY] Slightly larger base font size for content */
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+
+/* Prose (Markdown Content) Overrides */
+.prose h1,
+.prose h2,
+.prose h3 {
+  color: var(--color-neon-blue);
+  font-family: var(--font-heading);
+  /* [READABILITY] Removed text-shadow for crisp, clear headings */
+  @apply border-b border-[var(--color-neon-blue)]/30 pb-3 mb-6;
+}
+.prose h4,
+.prose h5,
+.prose h6 {
+  color: var(--color-neon-violet);
+  font-family: var(--font-heading);
+}
+.prose a {
+  color: var(--color-neon-pink);
+  /* [READABILITY] Removed default text-shadow. Added underline for clarity. */
+  @apply font-bold transition-all duration-200 no-underline;
+}
+.prose a:hover {
+  /* [READABILITY] Glow effect now only appears on hover for feedback */
+  color: #ffffff;
+  text-shadow: 0 0 8px var(--color-neon-pink);
+  @apply underline;
+}
+.prose strong {
+  color: #ffffff;
+  font-weight: bold;
+}
+.prose blockquote {
+  color: var(--color-text-dim);
+  @apply border-l-4 border-[var(--color-neon-violet)]/50 pl-4 italic;
+}
+.prose code {
+  background-color: rgba(255, 0, 170, 0.1);
+  color: var(--color-neon-pink);
+  /* [READABILITY] Less intense background for inline code */
+  @apply px-1.5 py-0.5 rounded-md text-sm font-mono;
+}
+.prose hr {
+  @apply border-[var(--color-neon-blue)]/20 my-8;
+}
+/* [READABILITY] More space between paragraphs */
+.prose p {
+  @apply mb-5;
+}
+
+/* Themed Code Block Styling */
+.prose pre {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-neon-violet);
+  /* [READABILITY] Removed distracting box-shadow */
+  @apply text-slate-300 rounded-lg p-4 relative;
+}
+.prose pre code {
+  background: transparent;
+  color: inherit;
+  @apply p-0 text-sm;
+}
+
+/* Custom Tabs Styling */
+.tab-buttons {
+  @apply flex border-b border-[var(--color-neon-violet)]/30 mb-[-1px];
+}
+.tab-button {
+  font-family: var(--font-heading);
+  @apply py-2 px-4 -mb-px border-b-2 border-transparent text-[var(--color-text-dim)] font-medium cursor-pointer transition-all;
+}
+.tab-button:hover {
+  color: var(--color-neon-blue);
+}
+.tab-button.active {
+  color: var(--color-neon-pink);
+  border-color: var(--color-neon-pink);
+  /* [READABILITY] Subtler shadow on active tab */
+  text-shadow: 0 0 3px var(--color-neon-pink);
+}
+
+/* Tab Content Visibility */
+.tab-content {
+  display: none;
+}
+.tab-content.active {
+  display: block;
+}
+.tab-content pre {
+  @apply mt-0 rounded-t-none;
+}
+
+/* --- STYLING ENDS HERE --- */
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+}
+::-webkit-scrollbar-thumb {
+  /* [READABILITY] Subtler scrollbar color */
+  background: var(--color-neon-violet);
+  opacity: 0.6;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-neon-pink);
+  opacity: 1;
+}
+
+/* Glitch animation for loading text */
+@keyframes glitch-anim {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-3px, 3px);
+  }
+  40% {
+    transform: translate(-3px, -3px);
+  }
+  60% {
+    transform: translate(3px, 3px);
+  }
+  80% {
+    transform: translate(3px, -3px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+.glitch-text {
+  animation: glitch-anim 0.25s infinite linear alternate-reverse;
+  text-shadow: 3px 0 var(--color-neon-pink), -3px 0 var(--color-neon-blue);
+  font-family: var(--font-heading);
+}
+
+/* Mermaid Diagram Styling */
+.mermaid-container {
+  @apply bg-black/30 p-4 rounded-lg border border-[var(--color-neon-blue)]/30;
+}
