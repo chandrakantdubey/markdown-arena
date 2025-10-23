@@ -22,7 +22,7 @@ export default function Content({ file }) {
       setError(null);
       setMarkdown("");
       try {
-        const filePath = `${import.meta.env.VITE_BASE_URL}${file}`;
+        const filePath = `${file}`;
         const response = await fetch(filePath);
         if (!response.ok) {
           throw new Error(`CONNECTION FAILED: /${file}. Check uplink.`);

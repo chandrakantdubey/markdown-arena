@@ -12,7 +12,7 @@ const slugify = (text) => {
 
 export async function getTopics() {
   try {
-    const url = `${import.meta.env.VITE_BASE_URL}data.md`;
+    const url = `data.md`;
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error("Failed to fetch data.md");
