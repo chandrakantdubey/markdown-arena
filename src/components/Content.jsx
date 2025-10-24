@@ -44,13 +44,15 @@ export default function Content({ file }) {
     const timer = setTimeout(() => {
       if (!contentRef.current) return;
 
-      const mermaidBlocks = contentRef.current.querySelectorAll(
-        'pre[lang="mermaid"]:not([data-processed])'
+      // Process Mermaid diagrams
+      const mermaidCodes = contentRef.current.querySelectorAll(
+        'code.language-mermaid'
       );
-      mermaidBlocks.forEach(async (preElement, index) => {
+      mermaidCodes.forEach(async (codeElement, index) => {
+        const preElement = codeElement.parentNode;
+        if (preElement.getAttribute("data-processed") === "true") return;
         preElement.setAttribute("data-processed", "true");
-        const codeElement = preElement.querySelector("code");
-        if (!codeElement) return;
+
         const diagramId = `mermaid-diagram-${file.replace(
           /[^a-zA-Z0-9]/g,
           ""
@@ -73,6 +75,7 @@ export default function Content({ file }) {
         }
       });
 
+      // Process code tabs
       const tabContainers = contentRef.current.querySelectorAll(
         ".code-tabs:not([data-processed])"
       );
