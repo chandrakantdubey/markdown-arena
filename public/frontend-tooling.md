@@ -9,15 +9,26 @@ This collection of tools is often referred to as the "build process" or "toolcha
 ## The Core Components of a Modern Toolchain
 
 ```mermaid
+%% Modern front-end build pipeline
 graph TD
-    A[Your Code\n(Modern JS, JSX, TS, SASS)] --> B{Transpiler (Babel)};
-    B --> C{Bundler (Vite/Webpack)};
-    D[Linter (ESLint)] --> A;
-    E[Formatter (Prettier)] --> A;
-    
-    C --> F[Optimized Production Code\n(Single JS/CSS files)];
 
-    style C fill:#1b263b,stroke:#00f5d4,stroke-width:2px;
+    %% Nodes – use \n for line-breaks, quote complex labels
+    A["Your Code\n(Modern JS, JSX, TS, SASS)"]
+    B["Transpiler\n(Babel)"]
+    C["Bundler\n(Vite / Webpack)"]
+    D["Linter\n(ESLint)"]
+    E["Formatter\n(Prettier)"]
+    F["Optimized Production Code\n(Single JS/CSS files)"]
+
+    %% Edges
+    A --> B
+    B --> C
+    D --> A
+    E --> A
+    C --> F
+
+    %% Styling
+    style C fill:#1b263b,stroke:#00f5d4,stroke-width:2px
 ```
 1.  **Transpiler (e.g., Babel)**: Translates modern JavaScript (and its variants like JSX or TypeScript) into older, more widely compatible JavaScript that can run in all browsers.
 2.  **Bundler (e.g., Vite, Webpack)**: Takes your application code, which is often split into many modules, and "bundles" it into a small number of optimized files (usually one JavaScript file and one CSS file) for the browser to download.
