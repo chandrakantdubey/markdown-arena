@@ -147,15 +147,17 @@ Flow diagram:
 
 ```mermaid
 graph LR
-    A[UI Component<br/>e.g., ProductItem] -->|Dispatches Action| B[Action Creator<br/>{ type: 'ADD_ITEM', payload }] 
-    B --> C[Store<br/>Applies Reducer]
-    C --> D[Reducer<br/>Pure Function<br/>Returns New State]
+    A["UI Component\n(e.g., ProductItem)"] -->|Dispatches Action| B["Action Creator\n{ type: 'ADD_ITEM', payload }"]
+    B --> C["Store\nApplies Reducer"]
+    C --> D["Reducer\nPure Function\nReturns New State"]
     D --> C
-    C -->|Subscribes & Updates| E[UI Component<br/>Re-renders Selectively]
-    
-    style A fill:#f3e5f5,stroke:#4a148c
-    style E fill:#f3e5f5,stroke:#4a148c
-    style C fill:#e8f5e8,stroke:#2e7d32
+    C -->|Notifies Subscribers| E["UI Component\nRe-renders Selectively"]
+
+    style A fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#4a148c
+    style E fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#4a148c
+    style C fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px,color:#2e7d32
+    style B fill:#fff3e0,stroke:#ef6c00,stroke-width:1px,color:#e65100
+    style D fill:#e3f2fd,stroke:#1565c0,stroke-width:1px,color:#0d47a1
 ```
 
 Quick RTK Example:
