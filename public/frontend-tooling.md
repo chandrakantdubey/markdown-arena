@@ -10,12 +10,12 @@ This collection of tools is often referred to as the "build process" or "toolcha
 
 ```mermaid
 graph TD
-    A[Your Code<br>(Modern JS, JSX, TS, SASS)] --> B{Transpiler (Babel)};
+    A[Your Code\n(Modern JS, JSX, TS, SASS)] --> B{Transpiler (Babel)};
     B --> C{Bundler (Vite/Webpack)};
     D[Linter (ESLint)] --> A;
     E[Formatter (Prettier)] --> A;
     
-    C --> F[Optimized Production Code<br>(Single JS/CSS files)];
+    C --> F[Optimized Production Code\n(Single JS/CSS files)];
 
     style C fill:#1b263b,stroke:#00f5d4,stroke-width:2px;
 ```
