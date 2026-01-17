@@ -1,3 +1,6 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "rewrites": [
+    { "source": "/markdown-arena/assets/(.*)", "destination": "/markdown-arena/assets/$1" },
+    { "source": "/markdown-arena/(.*)", "destination": "/markdown-arena/index.html" }
+  ]
 }
