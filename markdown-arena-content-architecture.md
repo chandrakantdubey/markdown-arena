@@ -1,389 +1,286 @@
-# Markdown Arena: Content Architecture and Structured Syllabus
+## Page 1 — Intro (Home + Foundations)
 
-## 1) High-Level Content Architecture
+This page answers **“What is Markdown and why does it exist?”**
+No syntax overload yet. This is about orientation and mental models.
 
-### 1.1 Purpose of the Platform
-Markdown Arena is structured as a dual-use system:
-- **Learning system**: progressive, layered curriculum from fundamentals to advanced behavior.
-- **Reference system**: fast lookup for syntax, support, and portability decisions.
+### Content Scope
 
-### 1.2 Primary Sections
-1. **Orientation and Conceptual Foundations**
-   - Establishes what Markdown is, where it came from, and why behavior differs.
-2. **Core Markdown (Beginner Track)**
-   - Covers baseline syntax expected across most parsers.
-3. **Extended Markdown (Intermediate Track)**
-   - Covers features common in modern ecosystems but not guaranteed everywhere.
-4. **Advanced Markdown Systems**
-   - Treats Markdown as a parsing/rendering pipeline with dialects and extension ecosystems.
-5. **Diagrams and Visual Content**
-   - Dedicated treatment of Mermaid and visual semantics.
-6. **Media and Embeds**
-   - Structured handling of images, linked media, and embed fallbacks.
-7. **Platform and Flavor Behavior**
-   - Cross-platform compatibility comparisons and portability strategies.
-8. **Editor / Arena (Conceptual Learning Lab)**
-   - Experimental learning layer for validating assumptions against real renderers.
-9. **Reference and Cheatsheet Layer**
-   - Compact syntax index mapped to behavior and support.
+**1. What Markdown Is**
 
-### 1.3 User Navigation Model
-- **Path A: Guided learner path**
-  - Foundations → Core → Extended → Advanced → Platform behavior.
-- **Path B: Task-driven practitioner path**
-  - Reference lookup → Compatibility matrix → Arena validation.
-- **Path C: Writer/maintainer path**
-  - Portability guidance → Platform section → Governance and style conventions.
+* Plain-text markup language
+* Readable without rendering
+* Designed for humans first, machines second
+* Markdown as *a writing interface*, not just syntax
 
-### 1.4 Cross-Linking Rules
-- Every syntax topic links to:
-  - conceptual rationale,
-  - portability notes,
-  - platform differences,
-  - related reference entry.
-- Every advanced/system topic links back to beginner-safe usage recommendations.
+**2. Why Markdown Exists**
 
----
+* Pain points of raw HTML
+* Separation of content from presentation
+* Markdown as a portability layer
+* Why developers, writers, and tools converged on it
 
-## 2) Foundations: What Markdown Is
+**3. Markdown vs HTML vs WYSIWYG**
 
-### 2.1 Scope and Boundaries
-- **Markdown is**: a lightweight plain-text authoring syntax intended for readable source text.
-- **Markdown is not**:
-  - a single universal specification with complete feature parity,
-  - a guaranteed WYSIWYG format,
-  - a replacement for all structured document standards.
+* Abstraction trade-offs
+* Control vs simplicity
+* When Markdown breaks down
+* Why Markdown often embeds HTML instead of replacing it
 
-### 2.2 Historical and Design Context
-- Origin and readability-first philosophy.
-- Divergence into multiple implementations (“flavors”).
-- Tension between minimal core and practical extensions.
+**4. How Markdown Works (Conceptual)**
 
-### 2.3 Markdown vs HTML (Conceptual)
-- Markdown as authoring shorthand; HTML as explicit document structure.
-- Cases where Markdown maps cleanly to HTML.
-- Cases requiring raw HTML or extension syntax.
-- Tradeoffs: readability, control, portability, security.
+* Markdown → Parser → AST → Renderer
+* Why different parsers produce different results
+* Why “Markdown is not a standard”
 
-### 2.4 Parsing and Rendering Concept Model
-- Source text → tokenizer/parser → syntax tree/intermediate model → renderer.
-- Why identical source can produce different output:
-  - parser rules,
-  - enabled extensions,
-  - sanitizer policies,
-  - CSS/host rendering context.
+**5. Flavors and Dialects (High-Level)**
 
-### 2.5 Why Inconsistency Is Expected
-- No universally enforced full-feature standard in practice.
-- Host platform policy differences (security, UX, allowed HTML, plugin support).
-- Importance of testing in target environment.
+* CommonMark
+* GitHub Flavored Markdown
+* Platform-specific Markdown
+* Why portability is hard
 
-### 2.6 Foundational Learning Outcomes
-Learners should leave Foundations able to:
-- explain portability risk before using advanced syntax,
-- distinguish authoring syntax from rendering outcome,
-- predict when feature fallbacks are needed.
+**6. Where Markdown Is Used**
+
+* README files
+* Documentation
+* Blogs and static sites
+* Notes and knowledge bases
+* Chat, comments, issues, wikis
+
+This page sets expectations: Markdown is simple, but not trivial.
 
 ---
 
-## 3) Core Markdown (Beginner)
+## Page 2 — Core Markdown (Tutorial + Reference)
 
-### 3.1 Section Goal
-Teach syntax with the highest baseline support while building durable mental models.
+This page is **the spine of the project**.
+Everything here should be widely supported and predictable.
 
-### 3.2 Module Sequence
+### Core Syntax (Tutorial Flow)
 
-#### Module A — Document Structure and Reading Flow
-- Headings (levels, hierarchy discipline, skip-level pitfalls).
-- Paragraphs and line breaks (soft vs hard break behavior).
-- Horizontal rules as section delimiters.
+**Text and Structure**
 
-**Common pitfalls:**
-- using headings for styling rather than structure,
-- ambiguous line break expectations.
+* Paragraphs
+* Line breaks (soft vs hard)
+* Headings (H1–H6)
+* Horizontal rules
 
-#### Module B — Text Semantics and Emphasis
-- Italic, bold, bold+italic.
-- Strikethrough (marked as often supported but not guaranteed in strict cores).
-- Inline code for exact literals.
+**Emphasis**
 
-**Mental model:** semantic emphasis vs visual styling intent.
+* Bold
+* Italic
+* Bold + Italic
+* Strikethrough (not core, but common)
 
-#### Module C — Lists and Structured Thinking
-- Unordered lists.
-- Ordered lists (auto-numbering behavior and source numbering strategy).
-- Nested lists and indentation sensitivity.
+**Lists**
 
-**Pitfalls:** mixed indentation widths, accidental code blocks, broken nesting.
+* Unordered lists
+* Ordered lists
+* Nested lists
+* List edge cases
 
-#### Module D — Quotations and Verbatim Blocks
-- Blockquotes and multi-paragraph quotes.
-- Fenced code blocks and language identifiers.
-- Distinguish code block content from executable/runtime behavior.
+**Code**
 
-#### Module E — Links and Basic Images
-- Inline links.
-- Basic image syntax.
-- Linked images as composition pattern.
+* Inline code
+* Fenced code blocks
+* Language identifiers
+* Syntax highlighting (conceptual)
 
-**Pitfalls:** relative vs absolute path assumptions, broken alt text habits.
+**Links**
 
-### 3.3 Beginner Competency Targets
-- Produce readable, structured docs using portable syntax first.
-- Avoid syntax that silently degrades without noticing.
-- Identify when moving to Extended section is necessary.
+* Inline links
+* Reference-style links
+* Auto-links
+* Link pitfalls
 
----
+**Images**
 
-## 4) Extended Markdown (Intermediate)
+* Basic image syntax
+* Alt text importance
+* Images vs links
 
-### 4.1 Section Goal
-Introduce high-utility features that are common but not universally portable.
+**Blockquotes**
 
-### 4.2 Support Classification Framework
-Each topic is labeled:
-- **Widely supported extension** (common on major platforms).
-- **Flavor-dependent extension** (requires specific parser/platform).
-- **Context-restricted extension** (works only in certain rendering surfaces).
-
-### 4.3 Module Sequence
-
-#### Module A — Structured Data in Text
-- Tables.
-- Column alignment conventions.
-- Table readability and fallback alternatives.
-
-#### Module B — Workflow-Oriented Syntax
-- Task lists / checkboxes.
-- Interaction assumptions (static render vs interactive state).
-- Use cases: planning, issue tracking, progress docs.
-
-#### Module C — Scholarly and Long-Form Features
-- Footnotes.
-- Reference-style links and link definition management.
-- Citation-like writing patterns in Markdown.
-
-#### Module D — Controlled HTML Interop
-- Raw HTML inside Markdown.
-- `<details>` / `<summary>` for collapsible disclosure patterns.
-- HTML comments in Markdown source.
-
-#### Module E — Content Organization Patterns
-- Progressive disclosure (summary-first writing).
-- Dense vs scannable formatting strategies.
-- Authoring for both raw-source readability and rendered output clarity.
-
-### 4.4 Intermediate Competency Targets
-- Choose extension features intentionally based on support profile.
-- Add portability notes when using non-core syntax.
-- Design fallback content where degradation risk is high.
+* Quotes
+* Nested quotes
+* Quotes vs callouts
 
 ---
 
-## 5) Advanced Markdown
+### Core Reference Layer (Same Page)
 
-### 5.1 Section Goal
-Position Markdown as a technical system with parser, flavor, and transformation implications.
+For each syntax:
 
-### 5.2 Advanced Modules
+* Minimal syntax
+* Rendered output
+* Common mistakes
+* Compatibility note
 
-#### Module A — Flavors, Dialects, and Specification Boundaries
-- CommonMark, GFM, and ecosystem-specific dialects (conceptual comparison).
-- Ambiguity resolution differences across parsers.
-- Authoring strategies for multi-target outputs.
+This page must work as:
 
-#### Module B — Extension Architecture and Parser Behavior
-- Parser extension points and plugin-driven syntax.
-- Preprocessing/postprocessing effects.
-- Deterministic vs context-dependent rendering behavior.
-
-#### Module C — Embedded DSLs in Markdown
-- Mermaid as a fenced-code DSL interpreted by host tooling.
-- Math syntax as renderer-dependent DSL.
-- Risks of writing to DSLs not available in all targets.
-
-#### Module D — Security and Trust Boundaries
-- Raw HTML sanitization models.
-- Script/style/event attribute filtering.
-- Safe authoring in untrusted collaboration contexts.
-
-#### Module E — Markdown as Intermediate Representation
-- Markdown → AST → HTML/PDF/Docs pipeline mental model.
-- Transform tooling implications (linting, normalization, migration).
-- Round-tripping limitations and lossiness concerns.
-
-### 5.3 Advanced Competency Targets
-- Diagnose rendering discrepancies by reasoning about parser and renderer stages.
-- Evaluate syntax choices against security and portability constraints.
-- Treat Markdown sources as maintainable artifacts across toolchains.
+* a guided tutorial
+* a fast cheatsheet
+* a reliable reference
 
 ---
 
-## 6) Diagrams and Visual Content
+## Page 3 — Advanced Markdown (Extended + Media)
 
-### 6.1 Section Goal
-Separate visual semantics from media embedding and teach diagram portability explicitly.
+This page answers **“How far can Markdown go?”**
 
-### 6.2 Diagram Curriculum Structure
+### Extended Syntax
 
-#### Module A — Diagram Semantics vs Static Visuals
-- Diagrams as executable textual models vs images as fixed output.
-- When to choose one over the other.
+**Tables**
 
-#### Module B — Mermaid Fundamentals
-- Mermaid fenced block conventions.
-- Directional/layout variants and their conceptual implications.
-  - top-down,
-  - bottom-up,
-  - left-right,
-  - right-left.
-- Diagram readability and complexity management.
+* Basic tables
+* Alignment
+* Readability vs maintainability
+* Why tables are controversial in Markdown
 
-#### Module C — Rendering Responsibility Model
-- Markdown contains the diagram definition.
-- External renderer/tooling produces the final visual.
-- Failure modes when renderer is absent.
+**Task Lists**
 
-#### Module D — Portability and Fallbacks
-- Graceful degradation options:
-  - provide textual summary,
-  - include alternate static image,
-  - document expected renderer requirements.
+* Checkboxes
+* Interactive vs static behavior
+* Platform support differences
 
-### 6.3 Learning Outcomes
-- Understand that Mermaid support is not a Markdown core guarantee.
-- Produce diagram content that remains interpretable when not rendered.
+**Footnotes**
 
----
+* Inline references
+* Multi-paragraph footnotes
+* When footnotes are appropriate
 
-## 7) Media and Embeds
+**HTML in Markdown**
 
-### 7.1 Section Goal
-Organize image and embed practices around accessibility, reliability, and host constraints.
+* Why raw HTML exists
+* What is usually allowed
+* What is usually blocked
+* Security implications
 
-### 7.2 Media Modules
+**Comments**
 
-#### Module A — Images as Core Media
-- Standard image syntax.
-- Alt text quality model (decorative vs informative images).
-- Pathing strategy (relative paths, repository moves, link rot awareness).
-
-#### Module B — Linked and Themed Images
-- Linked images for navigation and callouts.
-- Theme-aware image patterns (light/dark context handling).
-- Fallback behavior when theme-switch support is absent.
-
-#### Module C — Video and Rich Embeds
-- Why native video embedding is often platform-limited.
-- Thumbnail + link patterns (e.g., video via linked image).
-- Degradation-safe embed strategy.
-
-#### Module D — Accessibility and Inclusive Media Authoring
-- Alt text, captions, and surrounding context.
-- Keyboard/screen-reader implications of collapsible media sections.
-
-#### Module E — Platform Constraints
-- Host restrictions on iframes/raw HTML/media domains.
-- Content policy impacts on rendered outcomes.
-
-### 7.3 Learning Outcomes
-- Select media patterns that preserve meaning under restricted rendering policies.
-- Author with accessibility as a first-order requirement.
+* HTML comments
+* Hidden content
+* Tooling behavior
 
 ---
 
-## 8) Platform and Flavor Behavior
+### Media and Rich Content
 
-### 8.1 Section Goal
-Provide a comparison-first framework for predicting behavior across ecosystems.
+**Images (Advanced)**
 
-### 8.2 Comparison Axes
-- Syntax support (core vs extension).
-- HTML allowance and sanitization strictness.
-- Math and diagram enablement.
-- Table/task-list/footnote behavior.
-- Autolinking and emoji handling.
-- Heading ID generation and anchor behavior.
+* Linked images
+* Theme-based images
+* Image sizing hacks
+* Accessibility concerns
 
-### 8.3 Environment Categories
-- Code hosting platforms.
-- Note-taking tools.
-- Static documentation generators.
-- Editor previews/local renderers.
+**Video**
 
-### 8.4 Portability Trap Catalog
-- Works in preview, breaks in production renderer.
-- HTML-based features stripped by sanitizer.
-- Mermaid/math visible as raw text in unsupported contexts.
-- Reference link collisions and anchor mismatches.
+* YouTube embeds via images
+* Markdown limitations
+* Platform-specific embedding rules
 
-### 8.5 Decision Guides
-- “Portable baseline” authoring profile.
-- “Enhanced target-specific” profile with explicit dependency declaration.
-- Migration checklist when moving content between platforms.
+**Audio / Music**
 
----
+* Audio embeds via HTML
+* Markdown as a wrapper, not a player
 
-## 9) Editor / Arena Page (Conceptual Design)
+**Math**
 
-### 9.1 Learning Purpose
-The Arena serves as an experimentation environment where users validate Markdown assumptions against rendering outcomes.
+* Inline math
+* Block math
+* LaTeX-based systems
+* Renderer dependency
 
-### 9.2 Educational Functions
-- Immediate feedback on syntax correctness.
-- Visibility into ambiguity cases (same source, different interpretation).
-- Demonstration of extension toggles (core vs extended behavior).
-- Comparative rendering mindset: source intent vs actual output.
+**Dropdowns / Disclosure**
 
-### 9.3 Conceptual Learning Workflows
-- **Explore workflow**: write syntax → observe output → inspect compatibility notes.
-- **Compare workflow**: run same snippet against flavor profiles → detect deltas.
-- **Debug workflow**: isolate failing construct → test fallback rewrite.
+* `<details>` and `<summary>`
+* Content hiding patterns
+* Documentation UX use cases
 
-### 9.4 Conceptual Outcomes
-- Build intuition for parser-dependent behavior.
-- Develop habits of portability testing before publication.
-- Understand transformation pipeline effects on final artifacts.
+This page makes it clear: Markdown becomes powerful by **cooperating with other systems**, not by replacing them.
 
 ---
 
-## 10) Reference and Cheatsheet Layer
+## Page 4 — Visuals & Diagrams
 
-### 10.1 Section Goal
-Provide high-speed retrieval without replacing conceptual learning modules.
+This page is about **thinking visually with Markdown**.
 
-### 10.2 Reference Information Model
-Each entry follows a compact schema:
-1. **Syntax pattern**
-2. **Purpose/semantics**
-3. **Output expectation**
-4. **Support classification** (core / widely supported / flavor-dependent)
-5. **Platform notes**
-6. **Fallback pattern**
-7. **Related advanced caveats**
+### Diagram Systems
 
-### 10.3 Required Reference Surfaces
-- Alphabetical syntax index.
-- Task-oriented index (e.g., “make collapsible content,” “embed video safely”).
-- Compatibility matrix by platform category.
-- Pitfall index (“why this renders as plain text”).
+**Mermaid**
 
-### 10.4 Relationship to Learning Tracks
-- Reference entries must link back to full conceptual lessons.
-- Learning lessons must end with “quick reference pointers.”
-- Advanced modules must include direct links to compatibility matrix rows.
+* Flowcharts
+* Direction variants (TD, LR, BT, RL)
+* Sequence diagrams
+* State diagrams
+* Gantt charts
+* When Mermaid works well
+* When it fails
 
-### 10.5 Maintenance and Governance Model
-- Versioned support notes to reflect platform changes.
-- Consistent tagging of syntax stability and risk level.
-- Periodic review workflow for outdated compatibility assumptions.
+**Other Diagram Approaches**
+
+* ASCII diagrams
+* Embedded SVG
+* Image-based diagrams
+* Trade-offs
 
 ---
 
-## Baseline Inventory Mapping (from Existing Cheatsheet to New Architecture)
+### Visual Thinking in Markdown
 
-- **Core Markdown**: headings, emphasis, inline code, code blocks, lists, blockquotes, horizontal rules, links, images.
-- **Extended Markdown**: tables/alignment, task lists, footnotes, reference links, HTML comments, `<details>/<summary>`, raw HTML.
-- **Advanced / DSL Layer**: Mermaid diagrams, mathematical expressions, renderer-dependent embed patterns.
-- **Media and Embed Layer**: linked images, theme-based images, video via image links.
-- **Platform Behavior Layer**: emoji rendering differences, HTML sanitization differences, extension support variance.
+* Markdown as a diagram container
+* Diagrams vs images vs charts
+* Version control benefits
+* Diff-friendly visuals
+
+This page reframes Markdown as a **visual coordination language**, not just text formatting.
+
+---
+
+## Page 5 — Arena (Practice & Experimentation)
+
+This is the **interactive brain** of the project.
+
+### Conceptual Purpose
+
+The Arena answers:
+
+* “What happens if I type this?”
+* “Why does this render differently?”
+* “What syntax belongs to what category?”
+
+### Core Behavior
+
+* User types Markdown on the left
+* Output renders on the right
+* Live feedback loop
+
+### Topic-Driven Practice
+
+* List of **all topics across all pages**
+* Clicking a topic:
+
+  * Inserts starter syntax
+  * Explains expectations
+* User modifies freely
+
+### Learning Enhancements
+
+* Syntax hints
+* Flavor awareness
+* Visual vs textual feedback
+* Safe sandbox for breaking things
+
+This page turns Markdown from **static knowledge into muscle memory**.
+
+---
+
+## Final Compression Summary
+
+You now have:
+
+1. **Intro** — Why Markdown exists and how it works
+2. **Core** — Stable, universal Markdown mastery
+3. **Advanced** — Power features, media, and real-world usage
+4. **Visuals** — Diagrams and visual reasoning
+5. **Arena** — Practice, experimentation, and synthesis
