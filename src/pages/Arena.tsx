@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { NavLink, useLocation, useNavigate } from 'react-router';
+import { NavLink, useLocation, useNavigate, useSearchParams } from 'react-router';
 import MarkdownViewer from '../components/MarkdownViewer';
-import { Home, BookOpen, Layers, Maximize, Cpu, Image, Book, Swords, GraduationCap, Menu, X, Eye, PenLine, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Home, Layers, Cpu, Image, Swords, Menu, X, Eye, PenLine, ChevronLeft, ChevronRight } from 'lucide-react';
 import clsx from 'clsx';
 
 // ─── Content ────────────────────────────────────────────────────────────────
@@ -9,650 +9,1177 @@ import clsx from 'clsx';
 const CONTENT: Record<string, string> = {
     '/': `# Markdown Arena
 
-A live environment for learning, writing, and testing Markdown.
+Markdown is a **plain-text markup language** created to make writing structured documents simple, readable, and portable.
 
-## What is Markdown?
+Unlike visual editors or verbose markup languages, Markdown is designed so that the raw text itself remains meaningful. You can read a Markdown file without rendering it and still understand its structure, emphasis, and intent.
 
-Markdown is a lightweight markup language that converts plain text to formatted HTML. It's used everywhere — GitHub, documentation sites, note-taking apps, blogs.
-
-## How to use this app
-
-- **Left pane** — edit raw Markdown source
-- **Right pane** — see the live rendered preview
-- **Sidebar** — navigate between topics
-
-## Quick example
-
-**Bold**, *italic*, ~~strikethrough~~, \`inline code\`
-
-- Unordered list
-  - Nested item
-
-1. Ordered list
-2. Auto-numbered
-
-> Blockquote for emphasis
-
-\`\`\`javascript
-const greet = (name) => \`Hello, \${name}!\`;
-console.log(greet("World"));
-\`\`\`
-
-| Page | What you'll learn |
-| :--- | :--- |
-| Tutorial | Step-by-step lessons for beginners |
-| Foundations | History, philosophy, parsers |
-| Core Markdown | Headings, lists, links, code |
-| Extended | Tables, task lists, strikethrough |
-| Advanced | Nesting, escaping, HTML, security |
-| Visuals | Mermaid diagrams |
-| Reference | Quick cheat sheet |
-| The Arena | Free-form playground |
-`,
-
-    '/tutorial': `# Markdown Tutorial
-
-Welcome to the interactive Markdown tutorial. Each section covers a key concept.
+Markdown is not just a syntax.  
+It is a **writing interface between humans and machines**.
 
 ---
 
-## Lesson 1: Headings
+## What Markdown Is
 
-Use \`#\` symbols. One \`#\` = H1, two \`##\` = H2, up to six levels.
+Markdown is a way to describe document structure using ordinary text characters.
 
+It allows authors to express:
+- hierarchy (headings),
+- emphasis (bold, italic),
+- grouping (lists),
+- references (links),
+- and meaning (code, quotes),
+
+without relying on complex markup or visual tools.
+
+A defining property of Markdown is **readability without rendering**.  
+Even when viewed as plain text, Markdown documents remain understandable. This makes them ideal for environments where rendering is optional, delayed, or unavailable.
+
+Markdown was designed for **humans first, machines second**.  
+The syntax favors what is easy to read and write over what is perfectly precise.
+
+---
+
+## Why Markdown Exists
+
+Before Markdown became popular, content creators faced two unsatisfying extremes.
+
+The first was **raw HTML**.  
+HTML is powerful and explicit, but it is verbose and noisy. Writing even simple documents in HTML requires constant attention to tags, nesting, and syntax correctness. This distracts from the act of writing itself.
+
+The second was **WYSIWYG editors** (What You See Is What You Get).  
+These tools hide structure behind buttons and formatting panels. While easy to start with, they often produce fragile documents that are hard to version, migrate, or reason about outside the editor that created them.
+
+Markdown exists as a **middle layer**.
+
+It separates:
+- **content** (what you are saying)
+- from **presentation** (how it will look)
+
+This separation makes Markdown:
+- portable across tools,
+- friendly to version control,
+- resilient over time.
+
+Writers, developers, and tools converged on Markdown because it solves a shared problem:  
+**how to write once and publish anywhere**.
+
+---
+
+## Markdown vs HTML vs WYSIWYG
+
+Markdown, HTML, and WYSIWYG editors represent different levels of abstraction.
+
+HTML gives you **full control**.  
+You decide exactly how content is structured and rendered. The cost is verbosity and cognitive load.
+
+WYSIWYG editors give you **immediate visual feedback**.  
+The cost is hidden structure and poor portability.
+
+Markdown sits between them.
+
+It provides:
+- enough structure to be meaningful,
+- enough simplicity to stay readable,
+- enough abstraction to remain flexible.
+
+Markdown breaks down when:
+- precise layout matters,
+- complex interactions are required,
+- visual design is the primary concern.
+
+This is why Markdown often **embeds HTML instead of replacing it**.  
+When Markdown reaches its limits, HTML acts as an escape hatch.
+
+Markdown is intentionally incomplete.
+
+---
+
+## How Markdown Works (Conceptual)
+
+Markdown does not render itself.  
+It must be interpreted by a program.
+
+Conceptually, the process looks like this:
+
+Markdown text  
+→ **Parser**  
+→ **Abstract Syntax Tree (AST)**  
+→ **Renderer**  
+→ Output (HTML, PDF, etc.)
+
+The parser reads Markdown and converts it into a structured representation of the document.  
+The renderer then turns that structure into a final format.
+
+Different parsers make different decisions.  
+Some support tables, others do not.  
+Some allow raw HTML, others sanitize it.
+
+This is why the same Markdown can render differently across platforms.
+
+Markdown is not a single, universal standard.  
+It is a **family of interpretations**.
+
+---
+
+## Flavors and Dialects
+
+Because Markdown has no single authoritative specification, multiple dialects exist.
+
+**CommonMark**  
+Attempts to define a strict, unambiguous core specification for Markdown.
+
+**GitHub Flavored Markdown (GFM)**  
+Adds practical extensions like tables, task lists, and strikethrough, optimized for collaboration and documentation.
+
+**Platform-Specific Markdown**  
+Tools like note-taking apps, documentation generators, and editors often introduce their own extensions and limitations.
+
+Portability is hard because:
+- not all features exist everywhere,
+- rendering rules differ,
+- extensions are not universal.
+
+Writing portable Markdown means understanding what belongs to the core and what does not.
+
+---
+
+## Where Markdown Is Used
+
+Markdown is used anywhere text needs to be:
+- easy to write,
+- easy to review,
+- easy to move.
+
+Common environments include:
+- README files in code repositories
+- technical documentation
+- blogs and static websites
+- personal notes and knowledge bases
+- chat messages, comments, issues, and wikis
+
+Markdown thrives in collaborative spaces because it is:
+- diff-friendly,
+- merge-friendly,
+- tool-agnostic.
+
+---
+
+Markdown is often described as “simple,” but it is not trivial.
+
+Its simplicity hides a set of trade-offs that reward understanding.  
+This project exists to make those trade-offs visible.
+`,
+
+    '/core': `# Core Markdown
+
+This page covers the **foundational Markdown syntax** that is widely supported, predictable, and safe to use across platforms.
+
+Everything here forms the **spine of Markdown**.  
+If you master this page, you can write Markdown almost anywhere with confidence.
+
+This page works as:
+- a guided tutorial when read top to bottom
+- a practical reference when used selectively
+
+---
+
+## Text and Structure
+
+### Paragraphs
+
+Markdown treats text as paragraphs separated by **blank lines**.
+
+\`\`\`
+This is the first paragraph.
+
+This is the second paragraph.
+\`\`\`
+
+A single line break does **not** usually create a new paragraph.  
+Markdown favors readable text over strict layout control.
+
+Paragraphs are the most basic building block of any Markdown document.
+
+---
+
+### Line Breaks (Soft vs Hard)
+
+By default, Markdown uses **soft line breaks**.
+
+\`\`\`
+This line
+continues on the same line when rendered.
+\`\`\`
+
+Some platforms support **hard line breaks**, where a line break is preserved.  
+Because support varies, blank lines are the most reliable way to separate content.
+
+---
+
+### Headings
+
+Headings define the **structure and hierarchy** of a document.
+
+\`\`\`
 # Heading 1
 ## Heading 2
 ### Heading 3
 #### Heading 4
-
----
-
-## Lesson 2: Emphasis
-
-**Bold** — double asterisks or double underscores
-*Italic* — single asterisk or underscore
-***Bold and italic*** — triple asterisks
-~~Strikethrough~~ — double tildes
-
----
-
-## Lesson 3: Lists
-
-Unordered:
-
-- Apples
-- Bananas
-  - Bing cherries
-  - Rainier cherries
-- Dates
-
-Ordered:
-
-1. Boil water
-2. Add pasta
-3. Cook for 8 minutes
-
----
-
-## Lesson 4: Links and Images
-
-[Visit Google](https://google.com)
-
-![Sample](https://placehold.co/400x120/4f46e5/white?text=Markdown+Image)
-
----
-
-## Lesson 5: Code
-
-Inline: \`console.log("hello")\`
-
-Block:
-
-\`\`\`javascript
-function greet(name) {
-  return \`Hello, \${name}!\`;
-}
+##### Heading 5
+###### Heading 6
 \`\`\`
 
----
+Key principles:
+- Headings describe meaning, not appearance
+- Use them in order
+- Avoid skipping levels
+- One top-level heading per document is a common convention
 
-## Lesson 6: Tables
-
-| Name | Role | Level |
-| :--- | :---: | ---: |
-| Alice | Engineer | Senior |
-| Bob | Designer | Mid |
-
----
-
-## Lesson 7: Task Lists
-
-- [x] Learn headings
-- [x] Learn emphasis
-- [x] Learn lists
-- [ ] Learn tables
-- [ ] Learn Mermaid
+Headings are often used to generate navigation and tables of contents.
 
 ---
 
-## 🎉 Done!
+### Horizontal Rules
 
-Head to **The Arena** to practice freely.
-`,
+Horizontal rules visually separate major sections.
 
-    '/foundations': `# Foundations of Markdown
-
-Markdown is a **lightweight markup language** created by John Gruber and Aaron Swartz in 2004.
-
-## What Problem Does It Solve?
-
-Before Markdown, writing formatted content meant raw HTML:
-
-\`\`\`html
-<h1>My Article</h1>
-<p>This is a <strong>paragraph</strong> with <em>emphasis</em>.</p>
-<ul>
-  <li>Item one</li>
-  <li>Item two</li>
-</ul>
+\`\`\`
+---
 \`\`\`
 
-Markdown lets you write the same thing as:
+They should be used sparingly to divide **ideas**, not individual paragraphs.
 
-\`\`\`markdown
-# My Article
-
-This is a **paragraph** with *emphasis*.
-
-- Item one
-- Item two
-\`\`\`
-
-## How Markdown Works
-
-\`\`\`mermaid
-graph LR
-    A["Plain Text (.md)"] --> B[Markdown Parser]
-    B --> C[HTML]
-    B --> D[PDF]
-    B --> E[DOCX]
-\`\`\`
-
-## Markdown Flavors
-
-| Flavor | Creator | Key Additions |
-| :--- | :--- | :--- |
-| **CommonMark** | John MacFarlane et al. | Unambiguous spec |
-| **GFM** | GitHub | Tables, task lists, strikethrough |
-| **MultiMarkdown** | Fletcher Penney | Footnotes, citations |
-| **Pandoc** | John MacFarlane | Many output formats |
-| **MDX** | Hashicorp/Vercel | JSX inside Markdown |
-
-## The Philosophy
-
-> "The overriding design goal for Markdown's formatting syntax is to make it as readable as possible."
->
-> — John Gruber, creator of Markdown
-`,
-
-    '/core': `# Core Markdown Syntax
-
-The fundamental building blocks — supported by every parser.
-
-## Headings
-
-\`\`\`markdown
-# H1 — Page Title
-## H2 — Major Section
-### H3 — Subsection
-#### H4 — Sub-subsection
-\`\`\`
-
-## Paragraphs & Line Breaks
-
-Separate paragraphs with a blank line. End a line with two spaces for a hard break.
+---
 
 ## Emphasis
 
-**Bold** — \`**text**\`
-*Italic* — \`*text*\`
-***Bold italic*** — \`***text***\`
-~~Strikethrough~~ — \`~~text~~\`
+Emphasis communicates importance and nuance in text.
 
-## Lists
+### Bold
 
-Unordered:
-
-- Item one
-- Item two
-  - Nested item
-  - Another nested
-
-Ordered:
-
-1. First step
-2. Second step
-3. Third step
-
-## Links
-
-[Link text](https://example.com)
-[With title](https://example.com "Hover title")
-<https://autolink.com>
-
-## Images
-
-![Alt text](https://placehold.co/300x80/4f46e5/white?text=Image)
-
-## Blockquotes
-
-> "Any fool can write code that a computer can understand.
-> Good programmers write code that humans can understand."
-> — Martin Fowler
-
-## Code
-
-Inline: \`const x = 1;\`
-
-\`\`\`javascript
-function fibonacci(n) {
-  if (n <= 1) return n;
-  return fibonacci(n - 1) + fibonacci(n - 2);
-}
-console.log(fibonacci(10)); // 55
+\`\`\`
+**Bold text**
 \`\`\`
 
-## Horizontal Rule
+Bold is commonly used for:
+- strong emphasis
+- key terms
+- labels inside paragraphs
 
 ---
 
-## Escaping
+### Italic
 
-\\*Not italic\\* \\# Not a heading \\[Not a link\\]
-`,
+\`\`\`
+*Italic text*
+\`\`\`
 
-    '/extended': `# Extended Markdown (GFM)
+Italic is typically used for:
+- subtle emphasis
+- titles
+- tone or voice
 
-GitHub Flavored Markdown extends CommonMark with powerful features.
+---
 
-## Tables
+### Bold and Italic
 
-| Name | Role | Level |
-| :--- | :---: | ---: |
-| Alice | Engineer | Senior |
-| Bob | Designer | Mid |
-| Carol | Manager | Lead |
+\`\`\`
+***Bold and italic text***
+\`\`\`
 
-**Alignment:** \`:---\` = left, \`:---:\` = center, \`---:\` = right
+Combining both increases emphasis but should be used carefully.
 
-## Task Lists
+---
 
-- [x] Initialize repository
-- [x] Install dependencies
-- [x] Configure linting
-- [ ] Write unit tests
-- [ ] Deploy to production
+### Strikethrough
 
-## Strikethrough
+\`\`\`
+~~Strikethrough text~~
+\`\`\`
 
-The price was ~~$99~~ **$49** — 50% off!
+Strikethrough is not part of the original Markdown specification, but it is widely supported.  
+It is often used to indicate removal, correction, or change of intent.
 
-## Autolinks
+---
 
-Visit https://github.com for more information.
+## Lists
 
-## Footnotes
+Lists group related items and express sequence or hierarchy.
 
-Markdown was created by John Gruber[^1] and Aaron Swartz[^2] in 2004.
+### Unordered Lists
 
-[^1]: John Gruber runs [Daring Fireball](https://daringfireball.net)
-[^2]: Aaron Swartz was a programmer and internet activist (1986–2013)
+\`\`\`
+- Item one
+- Item two
+- Item three
+\`\`\`
 
-## HTML in GFM
+Unordered lists describe collections where order does not matter.
 
-<details>
-  <summary>Click to expand</summary>
+---
 
-  This content is hidden by default. You can use **Markdown** inside details tags.
+### Ordered Lists
 
-  - Item one
-  - Item two
+\`\`\`
+1. First item
+2. Second item
+3. Third item
+\`\`\`
 
-</details>
+The numbers define order, but most Markdown renderers automatically renumber items.  
+The actual numbers you type are less important than their sequence.
 
-Press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> to open the command palette.
+---
 
-Water is H<sub>2</sub>O. Energy is E=mc<sup>2</sup>.
+### Nested Lists
+
+\`\`\`
+- Parent item
+  - Child item
+  - Another child
+\`\`\`
+
+Nesting is controlled by **indentation**, not symbols.  
+Consistent spacing is critical for correct rendering.
+
+---
+
+### List Edge Cases
+
+Lists can break unexpectedly when:
+- indentation is inconsistent
+- blank lines are missing or misplaced
+- other elements interrupt list flow
+
+Keeping list items simple improves portability.
+
+---
+
+## Code
+
+Markdown treats code as a first-class citizen.
+
+### Inline Code
+
+\`\`\`
+Use \`npm install\` to install dependencies.
+\`\`\`
+
+Inline code is used for:
+- commands
+- filenames
+- keywords
+- short snippets
+
+---
+
+### Fenced Code Blocks
+
+\`\`\`
+This is a code block.
+\`\`\`
+
+Code blocks preserve whitespace and formatting.
+
+---
+
+### Language Identifiers
+
+\`\`\`
+\`\`\`js
+console.log("Hello, world");
+\`\`\`
+\`\`\`
+
+Language identifiers enable syntax highlighting when supported.  
+They do not affect the meaning of the code itself.
+
+---
+
+### Syntax Highlighting (Conceptual)
+
+Syntax highlighting is not part of Markdown itself.  
+It is applied by the renderer, based on the language identifier.
+
+Different platforms highlight differently, even for the same language.
+
+---
+
+## Links
+
+Links connect documents and ideas.
+
+### Inline Links
+
+\`\`\`
+[Link text](https://example.com)
+\`\`\`
+
+Inline links are the most common and readable form.
+
+---
+
+### Reference-Style Links
+
+\`\`\`
+[Link text][ref]
+
+[ref]: https://example.com
+\`\`\`
+
+Reference-style links improve readability in long documents.
+
+---
+
+### Auto-Links
+
+\`\`\`
+https://example.com
+\`\`\`
+
+Some platforms automatically convert URLs into links.  
+Support varies by renderer.
+
+---
+
+### Link Pitfalls
+
+Links can fail due to:
+- missing protocols
+- unsupported schemes
+- platform restrictions
+
+Always test important links in their target environment.
+
+---
+
+## Images
+
+Images use syntax similar to links.
+
+### Basic Image Syntax
+
+\`\`\`
+![Alt text](image.png)
+\`\`\`
+
+Images embed visual content into documents.
+
+---
+
+### Alt Text Importance
+
+Alt text is essential for:
+- accessibility
+- screen readers
+- broken images
+- search engines
+
+Alt text should describe the **meaning** of the image, not its appearance.
+
+---
+
+### Images vs Links
+
+Images display content.  
+Links reference content.
+
+Markdown treats images as **content**, not decoration.
+
+---
+
+## Blockquotes
+
+Blockquotes represent quoted or referenced content.
+
+### Quotes
+
+\`\`\`
+> This is a quote.
+\`\`\`
+
+Blockquotes are commonly used for:
+- citations
+- excerpts
+- referenced material
+
+---
+
+### Nested Quotes
+
+\`\`\`
+> Outer quote
+> > Inner quote
+\`\`\`
+
+Nested blockquotes represent quoted material within quoted material.
+
+---
+
+### Quotes vs Callouts
+
+Blockquotes indicate **quotation**, not emphasis or warnings.  
+Using them purely for styling can reduce clarity and portability.
+
+---
+
+## Core Markdown Summary
+
+Everything on this page is:
+- widely supported
+- stable over time
+- safe across platforms
+
+This is the foundation on which all advanced Markdown features are built.
 `,
 
     '/advanced': `# Advanced Markdown
 
-Advanced techniques for power users.
+This page explores **extended and advanced Markdown features** that go beyond the core syntax.
+These features are powerful, widely used, but **not universally supported**.
 
-## Nesting Elements
+Advanced Markdown is about understanding:
+- where Markdown ends,
+- where extensions begin,
+- and how Markdown cooperates with other systems.
 
-Code blocks inside lists:
+---
 
-1. Open your terminal
-2. Run the following:
+## Extended Syntax vs Core Syntax
 
-    \`\`\`bash
-    npm install -g typescript
-    \`\`\`
+Core Markdown focuses on structure and readability.
+Advanced Markdown focuses on **capability and expressiveness**.
 
-3. Verify:
+Extended features usually depend on:
+- the Markdown flavor,
+- the parser,
+- or the platform rendering the content.
 
-    \`\`\`bash
-    tsc --version
-    \`\`\`
+Understanding this distinction prevents portability issues.
 
-## Escaping Special Characters
+---
 
-\\*Not italic\\*
-\\*\\*Not bold\\*\\*
-\\# Not a heading
-\\\`Not code\\\`
+## Tables
 
-**Characters that can be escaped:**
-\\ \` * _ { } [ ] ( ) # + - . ! |
+Tables allow Markdown documents to represent structured data.
 
-## Raw HTML
+---
+| Name | Score | Status |
+| :--- | ---: | :---: |
+| Alice | 92 | ✅ |
+| Bob | 78 | ❌ |
+---
 
+Key points:
+- Tables are not part of original Markdown
+- Alignment is controlled with colons
+- Tables are difficult to edit and diff
+- Despite limitations, they are widely supported
+
+Use tables for **data**, not layout.
+
+---
+
+## Task Lists (Checkboxes)
+
+Task lists represent actionable items.
+
+---
+- [x] Write content
+- [ ] Review content
+- [ ] Publish
+---
+
+Important considerations:
+- Interactivity is platform-dependent
+- Some platforms allow clicking checkboxes
+- Others render them as static symbols
+
+Task lists are semantic indicators, not logic.
+
+---
+
+## Footnotes
+
+Footnotes allow references without interrupting reading flow.
+
+---
+This sentence needs context.[^1]
+
+[^1]: This is the footnote text.
+---
+
+Footnotes are useful for:
+- academic writing
+- documentation
+- long explanations
+
+Support varies between Markdown flavors.
+
+---
+
+## Definition Lists
+
+Some Markdown implementations support definition lists.
+
+---
+Term
+: Definition of the term
+---
+
+These are useful for glossaries but are not universally supported.
+
+---
+
+## HTML in Markdown
+
+Markdown allows raw HTML when syntax is insufficient.
+
+---
 <details>
-  <summary><strong>Advanced Configuration</strong></summary>
-
-  | Option | Default | Description |
-  | :--- | :--- | :--- |
-  | \`timeout\` | \`5000\` | Request timeout in ms |
-  | \`retries\` | \`3\` | Number of retry attempts |
-  | \`debug\` | \`false\` | Enable debug logging |
-
+  <summary>More details</summary>
+  Hidden content here
 </details>
-
-## Keyboard Keys
-
-- Copy: <kbd>Ctrl</kbd>+<kbd>C</kbd>
-- Paste: <kbd>Ctrl</kbd>+<kbd>V</kbd>
-- Save: <kbd>Ctrl</kbd>+<kbd>S</kbd>
-
-## Subscript / Superscript
-H<sub>2</sub>SO<sub>4</sub> and E = mc<sup>2</sup>
-
-## Frontmatter (used by static site generators)
-
-\`\`\`yaml
 ---
-title: My Blog Post
-author: Jane Doe
-date: 2024-01-15
-tags: [markdown, tutorial]
+
+HTML is:
+- powerful
+- flexible
+- potentially unsafe
+
+Many platforms sanitize or restrict HTML for security reasons.
+
 ---
-\`\`\`
 
-## Security
+## Comments
 
-Markdown supports raw HTML, which can be a vector for XSS. This app uses **rehype-sanitize** to strip:
-- \`javascript:\` URIs
-- Event handlers (\`onclick\`, \`onerror\`, etc.)
-- \`<script>\` tags
+Comments allow hidden notes in Markdown.
+
+---
+Visible text
+<!-- This comment will not render -->
+More visible text
+---
+
+Comments are useful for:
+- internal notes
+- explanations for editors
+- temporarily hiding content
+
+---
+
+## Media in Markdown
+
+Markdown itself cannot embed rich media.
+Instead, it **references** or **wraps** media handled by the renderer.
+
+---
+
+### Images (Advanced Usage)
+
+---
+![Alt text](image.png)
+---
+
+Advanced considerations:
+- Responsive behavior varies
+- Theme-based images may be supported
+- Alt text is critical for accessibility
+
+Markdown treats images as content, not decoration.
+
+---
+
+### Linked Images
+
+---
+[![Alt text](image.png)](https://example.com)
+---
+
+Linked images act as visual hyperlinks.
+
+---
+
+### Video Content
+
+Markdown cannot embed video directly.
+
+Common workaround:
+- Use an image thumbnail linked to the video
+- Let the platform handle embedding
+
+True embedding is platform-specific.
+
+---
+
+### Audio Content
+
+Audio embedding requires HTML.
+
+---
+<audio controls>
+  <source src="audio.mp3" type="audio/mpeg">
+</audio>
+---
+
+Markdown acts as a container, not a media player.
+
+---
+
+## Simple Mathematics Example
+
+Mathematics in Markdown is written inline with text or displayed as a block for clarity.
+
+### Inline Equation
+
+This is a simple inline equation showing addition:
+
+When $a + b = c$, the value of $c$ is the sum of $a$ and $b$.
+
+---
+
+### Block Equation
+
+For better readability, the same equation can be written as a block:
+
+$$
+a + b = c
+$$
+
+---
+
+This example demonstrates the most basic mathematical expression and is useful for testing whether math rendering is working correctly.
+
+---
+
+## Admonitions and Callouts
+
+Some platforms support special callout syntax.
+
+---
+> **Note:** This is important.
+---
+
+These are stylistic conventions, not Markdown features.
+
+---
+
+## Escaping Characters
+
+Special characters can be escaped.
+
+---
+\*literal asterisk\*
+---
+
+Escaping ensures characters render as text, not syntax.
+
+---
+
+## Markdown Flavors and Extensions
+
+Different platforms extend Markdown differently.
+
+Common examples:
+- GitHub Flavored Markdown
+- Documentation tool extensions
+- Note-taking app syntax
+
+Extensions improve usability but reduce portability.
+
+---
+
+## Markdown as a Transformation Language
+
+Markdown is often used as an **intermediate format**.
+
+Typical pipelines:
+- Markdown → HTML
+- Markdown → PDF
+- Markdown → Static Site
+
+Markdown excels at describing **structure**, not presentation.
+
+---
+
+## Security Considerations
+
+Markdown rendering can introduce risks:
+- XSS via raw HTML
+- Embedded scripts
+- Unsafe links
+
+Most platforms sanitize content automatically.
+
+---
+
+## Advanced Markdown Summary
+
+Advanced Markdown expands capability at the cost of predictability.
+
+To use it effectively:
+- know what belongs to core Markdown
+- understand platform limitations
+- test where content will be rendered
+
+Markdown remains powerful because it stays simple at its core.
+
 `,
 
-    '/visuals': `# Visuals & Diagrams
+    '/visuals': `# Visuals & Diagrams in Markdown
 
-This app supports **Mermaid.js** — diagrams from text.
+Markdown is primarily a text-based language, but it is also widely used to **describe visuals, diagrams, and structured relationships**.
+Instead of drawing pixels directly, Markdown focuses on **describing intent and structure**, which tools then render visually.
+
+This page explores how visuals work in Markdown, where they shine, and where their limits are.
+
+---
+
+## Visual Thinking in Markdown
+
+Markdown does not aim to replace design tools or graphic editors.
+Its strength lies in **expressing relationships and structure** in a way that is:
+- readable as text,
+- easy to review,
+- friendly to version control.
+
+Visuals in Markdown are usually:
+- generated from text descriptions, or
+- embedded as external resources.
+
+This makes Markdown especially powerful for technical documentation.
+
+---
+
+## Images in Markdown
+
+Images are the most basic visual element supported by Markdown.
+
+---
+![Alt text](image.png)
+---
+
+Images allow you to:
+- illustrate concepts,
+- show screenshots,
+- include diagrams created elsewhere.
+
+Markdown does not control image size, alignment, or layout.
+Those details are handled by the renderer or by embedded HTML.
+
+---
+
+## Accessibility and Images
+
+Alt text is not optional decoration.
+It is essential for:
+- screen readers,
+- accessibility compliance,
+- understanding when images fail to load.
+
+Good alt text explains the **purpose** of the image, not just what it looks like.
+
+---
+
+## Diagrams as Text
+
+One of Markdown’s most powerful ideas is that **diagrams can be written as text**.
+
+Text-based diagrams are:
+- diff-friendly,
+- reviewable in pull requests,
+- easy to update,
+- portable across systems.
+
+This approach trades visual precision for clarity and maintainability.
+
+---
+
+## Mermaid Diagrams
+
+Mermaid is a popular diagramming language designed to work inside Markdown.
+
+\`\`\`mermaid
+graph TD
+  A[Idea] --> B[Markdown]
+  B --> C[Parser]
+  C --> D[Rendered Output]
+\`\`\`
+
+Mermaid diagrams are written as plain text and rendered by supporting platforms.
+
+---
+
+## Mermaid Flow Directions
+
+Mermaid supports multiple layout directions.
+
+\`\`\`mermaid
+graph LR
+  A --> B --> C
+\`\`\`
+
+Available directions:
+- TD (Top to Bottom)
+- LR (Left to Right)
+- BT (Bottom to Top)
+- RL (Right to Left)
+
+Direction affects readability and should be chosen based on content flow.
+
+---
+
+## Common Mermaid Diagram Types
+
+Mermaid supports several diagram categories, including:
+- flowcharts
+- sequence diagrams
+- state diagrams
+- class diagrams
+- Gantt charts
+
+Not all platforms support every type equally.
+
+---
+
+## When Mermaid Works Well
+
+Mermaid is well suited for:
+- process flows,
+- system overviews,
+- decision trees,
+- documentation diagrams.
+
+It works best when diagrams focus on **relationships**, not design.
+
+---
+
+## Limitations of Mermaid
+
+Mermaid is not ideal for:
+- precise visual layouts,
+- complex artistic diagrams,
+- pixel-perfect control.
+
+Rendering may vary between platforms and versions.
+
+---
+
+## ASCII Diagrams
+
+Simple diagrams can be represented using plain text.
+
+\`\`\`
+A --> B --> C
+\`\`\`
+
+ASCII diagrams are:
+- universally supported,
+- extremely portable,
+- limited in expressiveness.
+
+They are useful for quick explanations.
+
+---
+
+## Embedded SVG and Images
+
+For complex visuals, authors often embed:
+- SVG images,
+- PNG or JPEG diagrams,
+- externally generated charts.
+
+Markdown acts as a container, not a drawing tool.
+
+---
+
+## Charts and Graphs
+
+Markdown itself does not define chart syntax.
+Charts are typically handled by:
+- embedded images,
+- JavaScript-based renderers,
+- platform-specific extensions.
+
+This reinforces Markdown’s role as a **descriptive layer**, not a visualization engine.
+
+---
+
+## Visual Portability Concerns
+
+Visual content can break due to:
+- unsupported renderers,
+- missing extensions,
+- security restrictions.
+
+When portability matters, prefer:
+- images for guaranteed rendering,
+- text diagrams for long-term maintainability.
+
+---
+
+## Visuals and Version Control
+
+One major advantage of text-based visuals is compatibility with version control.
+
+Benefits include:
+- readable diffs,
+- meaningful change history,
+- easier collaboration.
+
+Binary images do not offer these benefits.
+
+---
+
+## Choosing the Right Visual Approach
+
+Use:
+- **text diagrams** for structure and relationships,
+- **images** for visual detail,
+- **SVG** when scalability matters.
+
+Markdown excels when visuals support understanding, not decoration.
+
+---
+
+## Visuals & Diagrams Summary
+
+Markdown does not draw.
+It **describes**.
+
+By focusing on structure and relationships, Markdown allows visuals to remain:
+- understandable,
+- maintainable,
+- and collaborative.
+
+This makes it uniquely suited for technical and educational documentation.
 
 ## Flowchart
 
 \`\`\`mermaid
 graph TD
     A[Start] --> B{Is it working?}
-    B -- Yes --> C[Ship it! 🚀]
+    B -- Yes --> C[Deploy]
     B -- No --> D[Debug]
-    D --> E[Fix the bug]
-    E --> B
 \`\`\`
 
-## Sequence Diagram
+## Sequence
 
 \`\`\`mermaid
 sequenceDiagram
-    actor User
-    participant Browser
-    participant API
-    participant DB
-
-    User->>Browser: Click "Login"
-    Browser->>API: POST /auth/login
-    API->>DB: SELECT user WHERE email=?
-    DB-->>API: User record
-    API-->>Browser: JWT token
-    Browser-->>User: Redirect to dashboard
+    User->>Browser: Load Page
+    Browser->>API: Fetch Data
+    API-->>Browser: JSON
+    Browser-->>User: Render View
 \`\`\`
 
-## Class Diagram
+## State Diagram
 
 \`\`\`mermaid
-classDiagram
-    class Animal {
-        +String name
-        +makeSound() String
-    }
-    class Dog {
-        +String breed
-        +fetch() void
-    }
-    class Cat {
-        +bool indoor
-        +purr() void
-    }
-    Animal <|-- Dog
-    Animal <|-- Cat
+stateDiagram-v2
+    [*] --> Idle
+    Idle --> Processing : Event
+    Processing --> Idle : Done
 \`\`\`
 
-## Entity Relationship
-
-\`\`\`mermaid
-erDiagram
-    USER ||--o{ POST : "writes"
-    POST ||--o{ COMMENT : "has"
-    USER ||--o{ COMMENT : "writes"
-\`\`\`
-
-## Gantt Chart
+## Gantt
 
 \`\`\`mermaid
 gantt
-    title Project Timeline
-    dateFormat  YYYY-MM-DD
-    section Planning
-    Requirements    :done, 2024-01-01, 7d
-    Design          :done, 2024-01-08, 5d
-    section Development
-    Backend API     :active, 2024-01-13, 14d
-    Frontend UI     :2024-01-13, 10d
-    section Launch
-    Testing         :2024-01-27, 7d
-    Deployment      :2024-02-03, 2d
-\`\`\`
-
-## Git Graph
-
-\`\`\`mermaid
-gitGraph
-    commit id: "Initial commit"
-    commit id: "Add README"
-    branch feature/auth
-    checkout feature/auth
-    commit id: "Add login"
-    commit id: "Add JWT"
-    checkout main
-    merge feature/auth id: "Merge auth"
-    commit id: "Release v1.0"
+    title Project Plan
+    section Phase 1
+    Discovery :done, 2024-01-01, 7d
+    Design    :active, 5d
 \`\`\`
 `,
 
-    '/reference': `# Markdown Reference
+    '/arena': `# The Arena
 
-Complete cheat sheet for quick lookup.
+**Experimentation Lab.**
+Type on the left, see results on the right.
 
-## Headings
+### Try a Topic:
 
-\`\`\`markdown
-# H1  ## H2  ### H3  #### H4  ##### H5  ###### H6
-\`\`\`
+*   [Headings](/arena?topic=headings)
+*   [Lists](/arena?topic=lists)
+*   [Code Blocks](/arena?topic=code)
+*   [Tables](/arena?topic=tables)
+*   [Mermaid Diagrams](/arena?topic=mermaid)
 
-## Text Formatting
+Or just start typing below!
+`
+};
 
-| Syntax | Result |
-| :--- | :--- |
-| \`**bold**\` | **bold** |
-| \`*italic*\` | *italic* |
-| \`***bold italic***\` | ***bold italic*** |
-| \`~~strike~~\` | ~~strike~~ |
-| \`\`code\`\` | \`code\` |
+// ─── Starter Topics for Arena ───────────────────────────────────────────────
 
-## Lists
+const TOPICS: Record<string, string> = {
+    'headings': `# Headings Practice
 
-\`\`\`markdown
-- Unordered item
-  - Nested item
+# H1
+## H2
+### H3
+#### H4
+##### H5
+###### H6
 
-1. Ordered item
-2. Another item
-
-- [x] Checked task
-- [ ] Unchecked task
-\`\`\`
-
-## Links & Images
-
-\`\`\`markdown
-[Link text](https://url.com)
-![Alt text](https://image.url)
-<https://autolink.com>
-\`\`\`
-
-## Blockquotes
-
-\`\`\`markdown
-> Single line
-> > Nested quote
-\`\`\`
-
-## Code
-
-\`\`\`markdown
-Inline: \`code\`
-
-\`\`\`language
-code block
-\`\`\`
-\`\`\`
-
-## Tables
-
-\`\`\`markdown
-| Left | Center | Right |
-| :--- | :---:  | ---:  |
-| A    |   B    |     C |
-\`\`\`
-
-## HTML
-
-\`\`\`markdown
-<kbd>Ctrl</kbd>+<kbd>C</kbd>
-H<sub>2</sub>O  E=mc<sup>2</sup>
-<details><summary>Title</summary>Content</details>
-\`\`\`
-
-## Mermaid
-
-\`\`\`markdown
-\`\`\`mermaid
-graph LR
-    A --> B --> C
-\`\`\`
-\`\`\`
-
-## Quick Reference
-
-| Element | Syntax |
-| :--- | :--- |
-| H1 | \`# Heading\` |
-| Bold | \`**text**\` |
-| Italic | \`*text*\` |
-| Link | \`[text](url)\` |
-| Image | \`![alt](url)\` |
-| Code | \`\`code\`\` |
-| Blockquote | \`> text\` |
-| Unordered list | \`- item\` |
-| Ordered list | \`1. item\` |
-| Task list | \`- [ ] item\` |
-| Table | \`\| col \| col \|\` |
-| HR | \`---\` |
+Try changing the hashes!
 `,
+    'lists': `# Lists Practice
 
-    '/arena': `# Welcome to the Arena
+- Item 1
+- Item 2
+  - Sub-item A
+  - Sub-item B
 
-This is your **live Markdown playground**. Type on the left, see the result on the right — instantly.
+1. Ordered 1
+2. Ordered 2
+   1. Nested ordered
 
-## Try some GFM
+- [ ] Task to do
+- [x] Task done
+`,
+    'code': `# Code Practice
 
-| Feature | Supported | Notes |
-| :--- | :---: | :--- |
-| Tables | ✅ | Use pipes \`|\` |
-| Task lists | ✅ | Use \`- [ ]\` |
-| Strikethrough | ✅ | Use \`~~text~~\` |
+Inline: \`const x = 10;\`
 
-## Try a list
-
-- **Unordered** item one
-- **Unordered** item two
-  - Nested item
-  - Another nested
-
-1. First ordered item
-2. Second ordered item
-3. Third ordered item
-
-## Try code
+Block:
 
 \`\`\`javascript
-function greet(name) {
-  return \`Hello, \${name}!\`;
+function add(a, b) {
+  return a + b;
 }
-
-console.log(greet("World"));
+console.log(add(2, 3));
 \`\`\`
+`,
+    'tables': `# Tables Practice
 
-## Try a blockquote
+| Feature | Supported | Notes |
+| :--- | :---: | ---: |
+| Tables | Yes | Pipes |
+| Alignment | Yes | Colons |
 
-> "The best documentation is the one that actually gets written."
-> — Someone wise
-
-## Try Mermaid
+Try adding a row!
+`,
+    'mermaid': `# Mermaid Practice
 
 \`\`\`mermaid
 graph LR
-    A[Write Markdown] --> B[Parse]
-    B --> C[Render HTML]
-    C --> D[Beautiful Docs]
+    A[Start] --> B(Round Edge)
+    B --> C{Decision}
+    C -->|One| D[Result 1]
+    C -->|Two| E[Result 2]
 \`\`\`
-`,
+`
 };
 
 // ─── Nav ────────────────────────────────────────────────────────────────────
 
 const NAV = [
-    { to: '/', label: 'Home', icon: Home },
-    { to: '/tutorial', label: 'Tutorial', icon: GraduationCap },
-    { to: '/foundations', label: 'Foundations', icon: BookOpen },
-    { to: '/core', label: 'Core Markdown', icon: Layers },
-    { to: '/extended', label: 'Extended', icon: Maximize },
-    { to: '/advanced', label: 'Advanced', icon: Cpu },
-    { to: '/visuals', label: 'Visuals & Diagrams', icon: Image },
-    { to: '/reference', label: 'Reference', icon: Book },
-    { to: '/arena', label: 'The Arena', icon: Swords },
+    { to: '/', label: '1. Introduction', icon: Home },
+    { to: '/core', label: '2. Core Markdown', icon: Layers },
+    { to: '/advanced', label: '3. Advanced', icon: Cpu },
+    { to: '/visuals', label: '4. Visuals', icon: Image },
+    { to: '/arena', label: '5. The Arena', icon: Swords },
 ];
 
 // ─── Component ──────────────────────────────────────────────────────────────
@@ -660,27 +1187,41 @@ const NAV = [
 export default function Arena() {
     const location = useLocation();
     const navigate = useNavigate();
-    const initialContent = CONTENT[location.pathname] ?? CONTENT['/arena'];
-    const [content, setContent] = useState(initialContent);
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    // Determine content based on route + topic query param
+    const getInitialContent = () => {
+        const topic = searchParams.get('topic');
+        if (location.pathname === '/arena' && topic && TOPICS[topic]) {
+            return TOPICS[topic];
+        }
+        return CONTENT[location.pathname] ?? CONTENT['/arena'];
+    };
+
+    const [content, setContent] = useState(getInitialContent);
     const leftRef = useRef<HTMLTextAreaElement>(null);
     const rightRef = useRef<HTMLDivElement>(null);
     const syncing = useRef(false);
 
     // Layout state
-    const [sidebarOpen, setSidebarOpen] = useState(true); // Desktop sidebar
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false); // Mobile overlay
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [activeTab, setActiveTab] = useState<'editor' | 'preview'>('editor');
 
     const currentIndex = NAV.findIndex(n => n.to === location.pathname);
     const prevPage = NAV[currentIndex - 1];
     const nextPage = NAV[currentIndex + 1];
 
-    // Reset content when route changes
+    // Effect: Handle navigation or topic change
     useEffect(() => {
-        const next = CONTENT[location.pathname] ?? CONTENT['/arena'];
-        setContent(next);
+        const topic = searchParams.get('topic');
+        if (location.pathname === '/arena' && topic && TOPICS[topic]) {
+            setContent(TOPICS[topic]);
+        } else {
+            setContent(CONTENT[location.pathname] ?? CONTENT['/arena']);
+        }
         setMobileMenuOpen(false);
-    }, [location.pathname]);
+    }, [location.pathname, searchParams]); // React to topic changes too
 
     const onLeftScroll = useCallback(() => {
         if (syncing.current) return;
@@ -728,10 +1269,8 @@ export default function Arena() {
             {/* Sidebar */}
             <aside className={clsx(
                 "fixed inset-y-0 left-0 bg-slate-50 border-r border-slate-200 flex flex-col z-40 transition-all duration-300",
-                // Mobile: always fixed, sliding
-                "md:relative",
+                "md:relative", // Relative on desktop
                 mobileMenuOpen ? "translate-x-0 w-64 shadow-xl" : "-translate-x-full md:translate-x-0",
-                // Desktop: visible or collapsed based on sidebarOpen
                 !mobileMenuOpen && (sidebarOpen ? "md:w-56" : "md:w-0 md:border-none md:overflow-hidden")
             )}>
                 <div className="px-4 py-4 border-b border-slate-200 flex items-center justify-between flex-shrink-0">
@@ -761,7 +1300,7 @@ export default function Arena() {
                     ))}
                 </nav>
                 <div className="px-4 py-3 border-t border-slate-200 text-xs text-slate-400 whitespace-nowrap overflow-hidden flex-shrink-0">
-                    Markdown Arena v0.1.0
+                    Markdown Arena v1.2.0
                 </div>
             </aside>
 
@@ -839,12 +1378,25 @@ export default function Arena() {
                     )}>
                         <div className="hidden md:flex items-center justify-between px-4 py-2 bg-slate-50 border-b border-slate-200 flex-shrink-0">
                             <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Raw Markdown</span>
-                            <button
-                                onClick={() => setContent(CONTENT[location.pathname] ?? CONTENT['/arena'])}
-                                className="text-xs text-slate-400 hover:text-slate-600 transition-colors"
-                            >
-                                Reset
-                            </button>
+                            <div className="flex items-center gap-2">
+                                {location.pathname === '/arena' && (
+                                    <button
+                                        onClick={() => {
+                                            setSearchParams({});
+                                            setContent(CONTENT['/arena']); // Reset to default arena welcome
+                                        }}
+                                        className="text-xs text-slate-400 hover:text-slate-600 transition-colors mr-2"
+                                    >
+                                        Clear Topic
+                                    </button>
+                                )}
+                                <button
+                                    onClick={() => setContent(CONTENT[location.pathname] ?? CONTENT['/arena'])}
+                                    className="text-xs text-slate-400 hover:text-slate-600 transition-colors"
+                                >
+                                    Reset
+                                </button>
+                            </div>
                         </div>
                         <textarea
                             ref={leftRef}
