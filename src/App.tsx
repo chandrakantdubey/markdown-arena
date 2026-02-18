@@ -1,23 +1,18 @@
-import { lazy, Suspense } from "react";
-import { BrowserRouter, Routes, Route } from "react-router";
-import Loading from "./pages/Loading";
-
-const CourseLayout = lazy(() => import("./layouts/CourseLayout"));
-const TopicViewer = lazy(() => import("./pages/TopicViewer"));
-const MarkdownEditor = lazy(() => import("./pages/MarkdownEditor"));
+import { Routes, Route } from "react-router";
+import Arena from "./pages/Arena";
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Suspense fallback={<Loading />}>
-        <Routes>
-          <Route path="/" element={<CourseLayout />}>
-            <Route index element={<TopicViewer />} />
-            <Route path="playground" element={<MarkdownEditor />} />
-            <Route path=":topicId" element={<TopicViewer />} />
-          </Route>
-        </Routes>
-      </Suspense>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Arena />} />
+      <Route path="/tutorial" element={<Arena />} />
+      <Route path="/foundations" element={<Arena />} />
+      <Route path="/core" element={<Arena />} />
+      <Route path="/extended" element={<Arena />} />
+      <Route path="/advanced" element={<Arena />} />
+      <Route path="/visuals" element={<Arena />} />
+      <Route path="/reference" element={<Arena />} />
+      <Route path="/arena" element={<Arena />} />
+    </Routes>
   );
 }
