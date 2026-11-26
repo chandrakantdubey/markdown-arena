@@ -135,3 +135,23 @@ test('media examples play locally, survive HTML removal and expose the original 
     assert.equal((await archived.body()).subarray(0, 5).toString(), '%PDF-')
   } finally { await page.close() }
 })
+
+test('mobile course directory supports filtering, keyboard dismissal and direct exercise navigation', async () => {
+  const page = await browser.newPage({ viewport: { width: 375, height: 812 } })
+  try {
+    await page.goto(origin + '/')
+    const browse = page.getByRole('button', { name: 'Browse course' })
+    await browse.click()
+    const search = page.getByLabel('Find a lesson, tool or exercise')
+    await search.fill('no-such-topic')
+    await page.getByText('No matches.', { exact: false }).waitFor()
+    await page.keyboard.press('Escape')
+    assert.equal(await browse.evaluate(button => document.activeElement === button), true)
+    await browse.click()
+    await search.fill('paginated')
+    await page.getByRole('link', { name: 'Document a paginated API' }).click()
+    await page.getByRole('heading', { name: 'Document a paginated API' }).waitFor()
+    assert.match(page.url(), /topic=api-guide/)
+    assert.equal(await page.getByRole('dialog').count(), 0)
+  } finally { await page.close() }
+})

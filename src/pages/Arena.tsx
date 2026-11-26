@@ -1,5 +1,6 @@
 import { useDeferredValue, useEffect, useRef, useState } from 'react'
-import { Link, NavLink, useNavigate } from 'react-router'
+import { Link, useNavigate } from 'react-router'
+import CourseHeader from '../components/CourseHeader'
 import ProfileBuilder from '../components/ProfileBuilder'
 import MarkdownViewer from '../components/MarkdownViewer'
 import { chapters, exercises } from '../course/catalog'
@@ -59,15 +60,7 @@ export default function Arena({ title, documentPath, source, exercise, topic }: 
   const next = chapterIndex >= 0 ? chapters[chapterIndex + 1] : undefined
 
   return <div className="workbench">
-    <header className="masthead">
-      <Link className="wordmark" to="/">Markdown Arena</Link>
-      <nav aria-label="Course">
-        {chapters.map(item => <NavLink key={item.path} to={item.path} end>{item.title}</NavLink>)}
-        <NavLink to="/profile">Profile builder</NavLink>
-        <NavLink to="/arena">Practice</NavLink>
-        <NavLink to="/reference">Reference</NavLink>
-      </nav>
-    </header>
+    <CourseHeader />
     <main className="workspace">
       <div className="lesson-bar">
         <h1>{title}</h1>

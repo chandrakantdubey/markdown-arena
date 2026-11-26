@@ -236,12 +236,6 @@ button { color: inherit; background: white; border: 1px solid #b6c7bf; border-ra
 button:disabled { cursor: default; opacity: .5; }
 :focus-visible { outline: 3px solid #b66c15; outline-offset: 2px; }
 .workbench { height: 100vh; height: 100dvh; display: flex; flex-direction: column; }
-.masthead { display: flex; align-items: center; gap: 2rem; padding: .65rem clamp(.9rem, 3vw, 3rem); background: #173d39; color: white; }
-.wordmark { font: bold 1.4rem Georgia, serif; white-space: nowrap; }
-.masthead a { color: inherit; text-decoration: none; }
-.masthead nav { display: flex; gap: .25rem; overflow-x: auto; }
-.masthead nav a { padding: .4rem .65rem; white-space: nowrap; border-radius: .3rem; }
-.masthead nav a[aria-current], .masthead nav a:hover { background: #305953; }
 .workspace { display: flex; flex: 1; min-height: 0; flex-direction: column; }
 .lesson-bar, .tools { padding: .55rem clamp(.9rem, 3vw, 3rem); display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
 .lesson-bar { justify-content: space-between; }
@@ -278,9 +272,6 @@ button:disabled { cursor: default; opacity: .5; }
 .missing { max-width: 44rem; margin: 10vh auto; padding: 1rem; }
 
 @media (max-width: 760px) {
-  .masthead { align-items: start; flex-direction: column; gap: .3rem; }
-  .masthead nav { width: 100%; font-size: .88rem; }
-  .masthead nav a { padding: .35rem .5rem; }
   .lesson-bar, .tools { gap: .5rem; }
   .lesson-bar { align-items: start; }
   .tools { font-size: .78rem; }
@@ -299,7 +290,6 @@ button:disabled { cursor: default; opacity: .5; }
   .panes { flex: none; height: 80dvh; }
 }
 
-.masthead nav { min-width: 0; flex-wrap: wrap; }
 .md-prose video { display: block; width: min(100%, 640px); height: auto; border-radius: .45rem; }
 .profile-builder { margin: .6rem 0; }
 .profile-builder > button, .profile-builder button[type=submit] { background: #24584e; color: white; padding: .45rem .85rem; }
@@ -308,3 +298,26 @@ button:disabled { cursor: default; opacity: .5; }
 .profile-builder input { width: 100%; font: inherit; font-weight: 400; border: 1px solid #9bac9f; padding: .5rem; border-radius: .3rem; }
 .profile-builder form :is(button, p) { grid-column: 1/-1; justify-self: start; }
 .assignment:has(.profile-builder form:not([hidden])) { max-height: 50dvh; }
+
+.course-header { display:flex; align-items:center; gap:1.25rem; padding:.7rem clamp(.8rem,3vw,3rem); background:#173d39; color:#fff; }
+.course-brand { display:inline-flex; align-items:center; gap:.5rem; color:inherit; text-decoration:none; font:600 1.25rem Georgia,serif; white-space:nowrap; }
+.course-brand span { border:1px solid #9dbca8; border-radius:.35rem; padding:.2rem .35rem; font:700 .9rem monospace; color:#d7eed2; }
+.course-header > nav { display:flex; gap:.25rem; margin-left:auto; }
+.course-header > nav a { color:inherit; text-decoration:none; padding:.45rem .65rem; border-radius:.35rem; }
+.course-header > nav a:is(:hover,[aria-current]) { background:#315c52; }
+.browse-button { background:#e6f2df; color:#173d39; font-weight:650; padding:.5rem .8rem; }
+.course-directory { width:min(40rem,94vw); max-height:80dvh; margin:auto; padding:1.3rem; color:#193b34; border:1px solid #a5baaf; border-radius:.7rem; background:#fafcf9; }
+.course-directory::backdrop { background:#10271fd1; }
+.directory-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; }
+.directory-head h2 { margin:0; font:600 1.6rem Georgia,serif; }
+.course-directory label { display:block; font-size:.9rem; }
+.course-directory input { width:100%; margin:.3rem 0 .6rem; padding:.65rem; font:inherit; }
+.course-directory section { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.25rem; }
+.course-directory h3 { grid-column:1/-1; margin:.85rem 0 .2rem; font-size:.85rem; color:#53685c; }
+.course-directory a { padding:.45rem; text-decoration:none; border-radius:.3rem; }
+.course-directory a:is(:hover,:focus-visible,[aria-current]) { background:#dfecde; }
+@media(max-width:640px) {
+  .course-header { justify-content:space-between; gap:.4rem; }
+  .course-header > nav { display:none; }
+  .course-directory section { grid-template-columns:1fr; }
+}

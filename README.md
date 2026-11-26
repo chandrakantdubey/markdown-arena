@@ -18,6 +18,8 @@ Start with the first lesson if Markdown is new to you. If you already write READ
 | [6. Media lab](curriculum/lessons/media.md) | A gallery with accessible descriptions and an embedded clip | [Chart caption](curriculum/practice/chart-caption.md), [linked thumbnail](curriculum/practice/linked-thumbnail.md), [video and transcript](curriculum/practice/video-embed.md) |
 | [7. Capstone](curriculum/practice/capstone.md) | A complete release README for a sample CLI | Six acceptance criteria and a worked example |
 
+The extended writing studios cover [Document a paginated API](curriculum/practice/api-guide.md), [Write an incident review](curriculum/practice/incident-review.md), [Design a first-contribution guide](curriculum/practice/onboarding.md), [Publish an experiment note](curriculum/practice/experiment-note.md), [Write a support troubleshooting article](curriculum/practice/support-article.md), [Write a version migration plan](curriculum/practice/migration-plan.md). Use **Browse course** to search every chapter, tool and exercise.
+
 For each exercise, edit the starter, compare the rendered result to the self-check, then inspect the worked solution. Several correct answers are possible. On GitHub, copy the starter into a Markdown file in the same directory to try it. In the app, select **Practice** or follow an exercise link inside a lesson. The free-practice notebook is available from the exercise selector.
 
 In the app, open **Profile builder** to generate a personal draft, edit it and download `README.md`. The **Media lab** uses the [sample assets](curriculum/media/) directly. They include original PNG illustrations, a silent five-second WebM clip and its descriptive transcript. The queue readings are simulated teaching data.
