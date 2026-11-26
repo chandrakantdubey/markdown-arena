@@ -298,3 +298,13 @@ button:disabled { cursor: default; opacity: .5; }
   .workbench { height: auto; min-height: 100dvh; }
   .panes { flex: none; height: 80dvh; }
 }
+
+.masthead nav { min-width: 0; flex-wrap: wrap; }
+.md-prose video { display: block; width: min(100%, 640px); height: auto; border-radius: .45rem; }
+.profile-builder { margin: .6rem 0; }
+.profile-builder > button, .profile-builder button[type=submit] { background: #24584e; color: white; padding: .45rem .85rem; }
+.profile-builder form:not([hidden]) { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: .7rem 1rem; margin: .8rem 0; max-width: 60rem; }
+.profile-builder label { display: grid; gap: .15rem; font-size: .85rem; font-weight: 600; }
+.profile-builder input { width: 100%; font: inherit; font-weight: 400; border: 1px solid #9bac9f; padding: .5rem; border-radius: .3rem; }
+.profile-builder form :is(button, p) { grid-column: 1/-1; justify-self: start; }
+.assignment:has(.profile-builder form:not([hidden])) { max-height: 50dvh; }

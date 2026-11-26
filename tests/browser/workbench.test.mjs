@@ -77,3 +77,61 @@ test('the published lessons draw all four diagram types and serve the image work
     assert.ok(await image.evaluate(element => element.naturalWidth > 0))
   } finally { await page.close() }
 })
+
+test('a learner builds, edits, saves and exports a GitHub profile README', async () => {
+  const page = await browser.newPage({ viewport: { width: 390, height: 844 } })
+  try {
+    await page.goto(origin + '/use-cases')
+    await page.getByRole('link', { name: 'Build a profile README', exact: true }).click()
+    await page.getByRole('button', { name: 'Build from my details' }).click()
+    await page.getByLabel('Display name').fill('Mira [Docs]')
+    await page.getByLabel('One-line introduction').fill('I build documentation tools.')
+    await page.getByLabel('Featured project').fill('Example manual')
+    await page.getByRole('button', { name: 'Generate README' }).click()
+    await page.getByRole('alert').waitFor()
+    await page.getByLabel('Project link').fill('https://example.org/manual')
+    await page.getByLabel('Tools I use').fill('Git, TypeScript')
+    await page.getByRole('button', { name: 'Generate README' }).click()
+    await page.locator('article').getByRole('heading', { name: 'Mira [Docs]', exact: true }).waitFor()
+    assert.equal(await page.locator('article').getByRole('link', { name: 'Example manual' }).getAttribute('href'), 'https://example.org/manual')
+    await page.getByRole('button', { name: 'Source', exact: true }).click()
+    const editor = page.getByLabel('Markdown source')
+    const revised = (await editor.inputValue()) + '\nA final edit.'
+    await editor.fill(revised)
+    await page.reload()
+    assert.equal(await editor.inputValue(), revised)
+    const downloadPromise = page.waitForEvent('download')
+    await page.getByRole('button', { name: 'Download README.md' }).click()
+    const file = await downloadPromise
+    assert.equal(file.suggestedFilename(), 'README.md')
+    const chunks = []
+    for await (const chunk of await file.createReadStream()) chunks.push(chunk)
+    assert.equal(Buffer.concat(chunks).toString(), revised)
+  } finally { await page.close() }
+})
+
+test('media examples play locally, survive HTML removal and expose the original PDF', async () => {
+  const page = await browser.newPage()
+  try {
+    await page.goto(origin + '/media')
+    const article = page.locator('article')
+    for (const image of await article.locator('img').all()) {
+      await image.evaluate(img => img.decode())
+    }
+    const video = article.locator('video')
+    await video.waitFor()
+    await video.evaluate(async player => { await player.play(); player.pause() })
+    assert.equal(await video.evaluate(player => Math.round(player.duration)), 5)
+    const transcript = await article.getByRole('link', { name: 'Read the descriptive transcript' }).getAttribute('href')
+    const response = await page.request.get(new URL(transcript, origin).href)
+    assert.match(await response.text(), /Minute 4: 0 jobs waiting/)
+    await page.getByLabel('Markdown source').fill('<video src="https://example.org/unbundled.webm"></video>\n\n[Transcript](../media/queue-recovery.txt)')
+    await article.getByText(/For an external video/).waitFor()
+    assert.equal(await article.locator('video').count(), 0)
+    await article.getByRole('link', { name: 'Transcript' }).waitFor()
+    await page.getByRole('link', { name: 'Reference', exact: true }).click()
+    const pdf = await article.getByRole('link', { name: 'original PDF' }).getAttribute('href')
+    const archived = await page.request.get(new URL(pdf, origin).href)
+    assert.equal((await archived.body()).subarray(0, 5).toString(), '%PDF-')
+  } finally { await page.close() }
+})

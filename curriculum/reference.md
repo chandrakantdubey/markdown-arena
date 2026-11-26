@@ -45,4 +45,4 @@ npm run build
 | A formula stays literal | Check whether the target has a math renderer, then supply a plain-language version |
 | A relative image broke after a move | Resolve its path from the document's new directory, including letter case |
 
-Return to the [learning path](../README.md).
+Open the [original PDF](../docs/archive/Light.pdf) or return to the [first lesson](lessons/introduction.md).

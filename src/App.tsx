@@ -1,10 +1,11 @@
 import { Link, Route, Routes, useSearchParams } from 'react-router'
+import reference from '../curriculum/reference.md?raw'
 import Arena from './pages/Arena'
 import { chapters, exercises, freePractice } from './course/catalog'
 
-function Practice() {
+function Practice({ profile = false }: { profile?: boolean }) {
   const [params] = useSearchParams()
-  const id = params.get('topic')
+  const id = profile ? 'profile-readme' : params.get('topic')
   const exercise = id ? exercises.get(id) : undefined
   if (id && !exercise) return <MissingPage />
   return <Arena key={id ?? 'notebook'} title={exercise?.title ?? 'Practice notebook'}
@@ -24,6 +25,8 @@ export default function App() {
       <Arena key={chapter.file} title={chapter.title} documentPath={`lessons/${chapter.file}.md`}
         source={chapter.source} />
     } />)}
+    <Route path="/profile" element={<Practice profile />} />
+    <Route path="/reference" element={<Arena title="Syntax reference" documentPath="reference.md" source={reference} />} />
     <Route path="/arena" element={<Practice />} />
     <Route path="*" element={<MissingPage />} />
   </Routes>

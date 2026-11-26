@@ -65,4 +65,4 @@ For a video thumbnail, wrap an image in a link, for example `[![Watch the instal
 
 For theme-specific images, check the target publisher's picture-element support and supply an ordinary fallback image. Captions, useful alt text and sufficient contrast in both themes travel further than renderer-specific sizing tricks.
 
-[Practice renderer fallbacks](../practice/portability.md). Continue to [Diagrams](visuals.md).
+[Practice renderer fallbacks](../practice/portability.md). Try the [media lab](media.md) for a working video, images and a transcript. Continue to [Diagrams](visuals.md).

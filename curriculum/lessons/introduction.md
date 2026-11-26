@@ -35,6 +35,8 @@ A visual editor is handy when page layout is the deliverable. Markdown is handy 
 
 CommonMark specifies the core grammar. The GFM specification adds extensions. GitHub also has platform features such as issue references and math rendering. A README preview, issue comment and static documentation site can each apply different rules to the same source.
 
+Explore [places to use Markdown](applications.md), open the [profile README workshop](../practice/profile-readme.md), or go straight to the [media lab](media.md).
+
 ## First checkpoint
 
 Write a title, a one-sentence change and two steps. Inspect the source and the preview. A reader should be able to point to the title and tell which step comes first. [Open the headings exercise](../practice/headings.md).

@@ -1,5 +1,6 @@
 import { useDeferredValue, useEffect, useRef, useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router'
+import ProfileBuilder from '../components/ProfileBuilder'
 import MarkdownViewer from '../components/MarkdownViewer'
 import { chapters, exercises } from '../course/catalog'
 import type { Exercise } from '../course/exercise'
@@ -38,6 +39,15 @@ export default function Arena({ title, documentPath, source, exercise, topic }: 
     } catch { setSaveError(true) }
   }
 
+  function downloadReadme() {
+    const href = URL.createObjectURL(new Blob([content], { type: 'text/markdown;charset=utf-8' }))
+    const link = document.createElement('a')
+    link.href = href
+    link.download = 'README.md'
+    link.click()
+    window.setTimeout(() => URL.revokeObjectURL(href), 1000)
+  }
+
   function sync(from: 'source' | 'preview') {
     if (!syncScroll || scrollOwner.current !== from || !editor.current || !preview.current) return
     const [a, b] = from === 'source' ? [editor.current, preview.current] : [preview.current, editor.current]
@@ -53,7 +63,9 @@ export default function Arena({ title, documentPath, source, exercise, topic }: 
       <Link className="wordmark" to="/">Markdown Arena</Link>
       <nav aria-label="Course">
         {chapters.map(item => <NavLink key={item.path} to={item.path} end>{item.title}</NavLink>)}
+        <NavLink to="/profile">Profile builder</NavLink>
         <NavLink to="/arena">Practice</NavLink>
+        <NavLink to="/reference">Reference</NavLink>
       </nav>
     </header>
     <main className="workspace">
@@ -64,10 +76,16 @@ export default function Arena({ title, documentPath, source, exercise, topic }: 
             <option value="">Free practice</option>
             {[...exercises].map(([id, item]) => <option key={id} value={id}>{item.title}</option>)}
           </select>
-        </div> : <Link to={next?.path ?? '/arena?topic=capstone'}>Next · {next?.title ?? 'Capstone'} →</Link>}
+        </div> : chapterIndex >= 0 && <Link to={next?.path ?? '/arena?topic=capstone'}>Next · {next?.title ?? 'Capstone'} →</Link>}
       </div>
       {exercise && <section aria-label="Exercise instructions" className="assignment">
         <p>{exercise.brief}</p>
+        {topic === 'profile-readme' && <ProfileBuilder onApply={sourceText => {
+          if (content !== source && !window.confirm('Replace your current README draft with the generated version?')) return false
+          edit(sourceText)
+          setView('preview')
+          return true
+        }} />}
         <details><summary>Hint, worked solution and self-check</summary>
           <p>{exercise.hint}</p><pre><code>{exercise.solution}</code></pre><p>{exercise.review}</p>
         </details>
@@ -80,6 +98,7 @@ export default function Arena({ title, documentPath, source, exercise, topic }: 
         <label className="scroll-setting"><input type="checkbox" checked={syncScroll}
           onChange={event => setSyncScroll(event.target.checked)} /> Sync scrolling</label>
         <span role="status">{saveError ? 'Browser storage unavailable. Copy your draft before leaving.' : content === source ? '' : 'Draft saved on this device'}</span>
+        {topic === 'profile-readme' && <button onClick={downloadReadme}>Download README.md</button>}
         <button disabled={content === source} onClick={() => {
           if (window.confirm('Replace this draft with its original Markdown?')) edit(source)
         }}>Reset draft</button>

@@ -1,0 +1,12 @@
+Queue recovery — descriptive transcript
+
+This silent five-second animation shows a simulated work queue after workers resume.
+Each second of video advances one minute of sample time.
+
+Minute 0: 120 jobs waiting.
+Minute 1: 90 jobs waiting.
+Minute 2: 60 jobs waiting.
+Minute 3: 30 jobs waiting.
+Minute 4: 0 jobs waiting.
+
+The backlog fell by 30 jobs per minute in this sample.
