@@ -39,7 +39,7 @@ export default function CourseHeader() {
         dialog.current?.close()
         trigger.current?.focus()
       }
-    } className="course-directory" aria-labelledby="directory-title">
+    }} className="course-directory" aria-labelledby="directory-title">
       <div className="directory-head"><h2 id="directory-title">Browse course</h2>
         <button onClick={() => dialog.current?.close()}>Close</button></div>
       <label htmlFor="directory-query">Find a lesson, tool or exercise</label>
