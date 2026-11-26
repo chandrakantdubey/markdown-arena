@@ -1,11 +1,12 @@
 import { useRef, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router'
+import ThemePicker from './ThemePicker'
 import { chapters, exercises } from '../course/catalog'
 
 const groups = [
   { title: 'Lessons', items: chapters.map(chapter => ({ label: chapter.title, to: chapter.path })) },
   { title: 'Writing tools', items: [
-    { label: 'Profile builder', to: '/profile' }, { label: 'Practice notebook', to: '/arena' },
+    { label: 'Snippet library', to: '/snippets' }, { label: 'Compatibility', to: '/compatibility' }, { label: 'Media downloads', to: '/assets' }, { label: 'Challenges', to: '/challenges' }, { label: 'Template library', to: '/templates' }, { label: 'Profile builder', to: '/profile' }, { label: 'Practice notebook', to: '/arena' },
     { label: 'Syntax reference', to: '/reference' },
   ] },
   { title: 'Exercises', items: Array.from(exercises, ([id, exercise]) => ({
@@ -23,12 +24,17 @@ export default function CourseHeader() {
     words.every(word => (item.label + ' ' + group.title + ' ' + item.to).toLowerCase().includes(word))) }))
 
   return <header className="course-header">
-    <Link className="course-brand" to="/"><span aria-hidden="true">M↓</span>Markdown Arena</Link>
+    <Link className="course-brand" to="/"><img src="/logo.svg" width="36" height="36" alt="" />Markdown Arena</Link>
     <nav aria-label="Course shortcuts">
+      <NavLink to="/learn">Learn</NavLink>
       <NavLink to="/use-cases">Use cases</NavLink>
+      <NavLink to="/snippets">Snippets</NavLink>
+      <NavLink to="/templates">Templates</NavLink>
+      <NavLink to="/profile">Profile builder</NavLink>
       <NavLink to="/arena">Practice</NavLink>
       <NavLink to="/reference">Reference</NavLink>
     </nav>
+    <ThemePicker />
     <button ref={trigger} className="browse-button" aria-haspopup="dialog" onClick={() => {
       setQuery('')
       dialog.current?.showModal()

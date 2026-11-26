@@ -9,7 +9,7 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import CodeBlock from './CodeBlock'
 import { bundledVideo, chapters, courseLink } from '../course/catalog'
 
-const coursePaths = new Set([...chapters.map(item => item.path), '/arena', '/profile', '/reference'])
+const coursePaths = new Set([...chapters.map(item => item.path), '/', '/arena', '/profile', '/reference', '/templates', '/snippets', '/compatibility', '/challenges', '/assets'])
 const previewSchema = {
   ...defaultSchema,
   tagNames: [...(defaultSchema.tagNames ?? []), 'video'],

@@ -138,3 +138,25 @@ Give the draft to someone in its intended audience. Ask them to perform the task
 Repository READMEs and wikis can resolve relative links from different directories. Issue comments have no file location in your checkout, so use a repository permalink for a file you cite there. An editor for a docs site may read front matter to populate navigation. A notebook may pair a Markdown cell with computed output in a separate code cell. Check what happens to code, assets and links in the destination preview before publishing.
 
 Continue to the [media lab](media.md) to work with repository images, video and text fallbacks.
+
+
+## Copy, customize and publish
+
+Use the [template library](https://markdown-arena.vercel.app/templates) for reusable documents. Replace placeholders, verify links, remove unsupported claims and preview in the destination platform.
+
+| Destination | Useful formats | Watch out for |
+| --- | --- | --- |
+| GitHub | Profile README, issues, PRs, project guides | HTML sanitization and third-party badges |
+| Documentation sites | Tutorials, API guides, release notes | Front matter and extensions differ by generator |
+| Obsidian | Study notes, linked knowledge | Wiki links are not portable Markdown |
+| Jupyter | Experiment narratives | Execution output is notebook-specific |
+| Team wikis | Runbooks, onboarding, decisions | Import and rendering behavior vary |
+| Blogs | Articles and tutorials | Image hosting and metadata are publisher-specific |
+
+### Publishing checklist
+
+- [ ] Replace every placeholder with accurate information.
+- [ ] Verify instructions in a clean environment.
+- [ ] Remove secrets and private links.
+- [ ] Add meaningful image descriptions and diagram alternatives.
+- [ ] Preview in the target platform, not just the Arena.
