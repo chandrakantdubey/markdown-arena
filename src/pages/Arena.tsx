@@ -4,6 +4,8 @@ import CourseHeader from '../components/CourseHeader'
 import ProfileBuilder from '../components/ProfileBuilder'
 import MarkdownViewer from '../components/MarkdownViewer'
 import { chapters, exercises } from '../course/catalog'
+import { completedDocuments, setCompleted } from '../course/progress'
+import { formats, insertFormat } from '../course/format'
 import type { Exercise } from '../course/exercise'
 
 interface Props {
@@ -21,6 +23,7 @@ export default function Arena({ title, documentPath, source, exercise, topic }: 
     try { return localStorage.getItem(storageKey) ?? source }
     catch { return source }
   })
+  const [complete, setComplete] = useState(() => completedDocuments().includes(documentPath))
   const [copyStatus, setCopyStatus] = useState('')
   async function copyMarkdown(value: string) {
     try { await navigator.clipboard.writeText(value); setCopyStatus('Copied Markdown') }
@@ -43,6 +46,15 @@ export default function Arena({ title, documentPath, source, exercise, topic }: 
       else localStorage.setItem(storageKey, value)
       setSaveError(false)
     } catch { setSaveError(true) }
+  }
+
+  function applyFormat(format: typeof formats[number]) {
+    const node = editor.current
+    if (!node) return
+    const result = insertFormat(content, node.selectionStart, node.selectionEnd, format)
+    edit(result.value)
+    setView('source')
+    requestAnimationFrame(() => { node.focus(); node.setSelectionRange(result.start,result.end) })
   }
 
   function downloadReadme() {
@@ -69,6 +81,7 @@ export default function Arena({ title, documentPath, source, exercise, topic }: 
     <main className="workspace">
       <div className="lesson-bar">
         <h1>{title}</h1>
+        {(chapterIndex >= 0 || exercise) && <button aria-pressed={complete} onClick={() => { if (setCompleted(documentPath,!complete)) setComplete(!complete); else setCopyStatus('Progress storage unavailable') }}>{complete ? 'Completed ✓' : 'Mark complete'}</button>}
         {topic !== undefined ? <div className="exercise-picker"><label htmlFor="exercise-picker">Exercise</label>
           <select id="exercise-picker" value={topic} onChange={event => navigate(event.target.value ? '/arena?topic=' + event.target.value : '/arena')}>
             <option value="">Free practice</option>
@@ -103,11 +116,13 @@ export default function Arena({ title, documentPath, source, exercise, topic }: 
           if (window.confirm('Replace this draft with its original Markdown?')) edit(source)
         }}>Reset draft</button>
       </div>
+      <div className="format-toolbar" role="group" aria-label="Markdown formatting">{formats.map(format => <button key={format.label} title={format.shortcut ? format.label + ' (Ctrl/⌘ + ' + format.shortcut + ')' : format.label} onMouseDown={event => event.preventDefault()} onClick={() => applyFormat(format)}>{format.label}</button>)}</div>
       <div className="panes" data-view={view}>
         <section className="pane source-pane" aria-label="Source">
           <label className="pane-title" htmlFor="markdown-source">Markdown source</label>
           <textarea id="markdown-source" ref={editor} spellCheck={false} value={content}
             onChange={event => edit(event.target.value)}
+            onKeyDown={event => { if (!(event.ctrlKey || event.metaKey) || event.altKey || event.shiftKey) return; const format = formats.find(item => item.shortcut && item.shortcut === event.key.toLowerCase()); if (format) { event.preventDefault(); applyFormat(format) } }}
             onPointerEnter={() => { scrollOwner.current = 'source' }}
             onFocus={() => { scrollOwner.current = 'source' }}
             onWheel={() => { scrollOwner.current = 'source' }}

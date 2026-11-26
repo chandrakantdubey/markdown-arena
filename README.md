@@ -61,3 +61,8 @@ Open the local URL printed by Vite. On a narrow screen, use the Source and Previ
 - Preview a change in both the app and GitHub. The Arena supports GFM, footnotes, sanitized HTML and Mermaid. Features such as math typesetting and platform-specific alerts depend on the publisher.
 
 The app uses React, TypeScript and Vite. Routes are `/`, `/core`, `/advanced`, `/visuals` `/use-cases`, `/media`, `/profile`, `/reference` and `/arena?topic=<id>`. A static host must serve `index.html` for app routes. The repository includes the Vercel rewrite. GitHub Actions runs the checks and browser tests for pull requests and pushes to main.
+
+
+## Extended workspace
+
+The home page links to structured learning paths, 210 copyable snippets, 16 complete templates, self-assessed challenges, a profile builder and original media assets. Open any resource in the playground to edit it with a separate local draft. Use the formatting toolbar or Ctrl/Cmd+B, I and K in the source editor. Theme and completion state are stored locally, without accounts or synchronization. See [platform compatibility](curriculum/compatibility.md) before publishing.

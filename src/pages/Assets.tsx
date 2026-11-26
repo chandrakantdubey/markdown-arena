@@ -1,0 +1,5 @@
+import CourseHeader from '../components/CourseHeader'
+const assets = [{"name":"architecture.svg","title":"Architecture overview"},{"name":"profile-banner.svg","title":"Profile banner"},{"name":"sample-data.csv","title":"Example data"},{"name":"sample-caption.txt","title":"Accessible image caption"}]
+export default function Assets() {
+  return <><CourseHeader/><main className="template-library"><section className="template-hero"><h1>Media practice assets</h1><p>Original sample files for experimenting with Markdown. Download and commit them alongside your own README; use a relative path in the final document.</p></section><div className="template-grid">{assets.map(({name,title}) => <article className="template-card" key={name}><h2>{title}</h2>{name.endsWith('.svg') && <img width="400" height="140" src={'/media/'+name} alt={title} loading="lazy" />}<pre>{name.endsWith('.svg') ? '!['+title+'](./'+name+')' : '['+title+'](./'+name+')'}</pre><a download href={'/media/'+name}>Download {name}</a></article>)}</div></main></>
+}

@@ -8,7 +8,7 @@ import pdfUrl from '../../docs/archive/Light.pdf?url'
 import { parseExercise } from './exercise'
 
 export const chapters = [
-  { path: '/', file: 'introduction', title: 'Start here', source: intro },
+  { path: '/learn', file: 'introduction', title: 'Start here', source: intro },
   { path: '/core', file: 'core', title: 'Core Markdown', source: core },
   { path: '/advanced', file: 'advanced', title: 'Extensions and media', source: advanced },
   { path: '/visuals', file: 'visuals', title: 'Diagrams', source: visuals },
