@@ -5,7 +5,7 @@ import { chapters, exercises } from '../course/catalog'
 const groups = [
   { title: 'Lessons', items: chapters.map(chapter => ({ label: chapter.title, to: chapter.path })) },
   { title: 'Writing tools', items: [
-    { label: 'Profile builder', to: '/profile' }, { label: 'Practice notebook', to: '/arena' },
+    { label: 'Template library', to: '/templates' }, { label: 'Profile builder', to: '/profile' }, { label: 'Practice notebook', to: '/arena' },
     { label: 'Syntax reference', to: '/reference' },
   ] },
   { title: 'Exercises', items: Array.from(exercises, ([id, exercise]) => ({
@@ -23,9 +23,11 @@ export default function CourseHeader() {
     words.every(word => (item.label + ' ' + group.title + ' ' + item.to).toLowerCase().includes(word))) }))
 
   return <header className="course-header">
-    <Link className="course-brand" to="/"><span aria-hidden="true">M↓</span>Markdown Arena</Link>
+    <Link className="course-brand" to="/"><img src="/logo.svg" width="36" height="36" alt="" />Markdown Arena</Link>
     <nav aria-label="Course shortcuts">
       <NavLink to="/use-cases">Use cases</NavLink>
+      <NavLink to="/templates">Templates</NavLink>
+      <NavLink to="/profile">Profile builder</NavLink>
       <NavLink to="/arena">Practice</NavLink>
       <NavLink to="/reference">Reference</NavLink>
     </nav>

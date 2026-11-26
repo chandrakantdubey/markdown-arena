@@ -321,3 +321,30 @@ button:disabled { cursor: default; opacity: .5; }
   .course-header > nav { display:none; }
   .course-directory section { grid-template-columns:1fr; }
 }
+
+/* Product shell and reusable template library */
+.course-header { background:#112e2c; flex-wrap:wrap; gap:.65rem 1rem; }
+.course-brand { font:750 1.12rem system-ui,sans-serif; letter-spacing:-.035em; }
+.course-brand img { flex:none; }
+.course-header > nav { flex-wrap:wrap; font-size:.875rem; }
+button { border-radius:.55rem; }
+button:hover:not(:disabled) { box-shadow:0 1px 5px #173d3920; }
+.lesson-bar h1 { font-family:system-ui,sans-serif; letter-spacing:-.035em; }
+.pane-title { letter-spacing:.025em; }
+.profile-builder select { padding:.5rem; border:1px solid #9bac9f; border-radius:.3rem; color:inherit; background:white; }
+.template-library { max-width:78rem; margin:auto; padding:clamp(1rem,4vw,3rem); }
+.template-hero { padding:clamp(1rem,4vw,2.5rem); border-radius:1.2rem; background:#e5efdf; }
+.template-hero h1 { font-size:clamp(2rem,5vw,3.5rem); line-height:1.1; letter-spacing:-.05em; margin:.5rem 0; }
+.template-hero p { max-width:65ch; }
+.template-filter { display:flex; flex-wrap:wrap; gap:1rem; margin:1.5rem 0; }
+.template-filter label { display:grid; gap:.3rem; flex:1; min-width:min(100%,12rem); }
+.template-filter input,.template-filter select { font:inherit; padding:.65rem; border:1px solid #b6c7bf; border-radius:.5rem; background:white; }
+.template-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr)); gap:1rem; }
+.template-card { background:white; border:1px solid #d8e3dc; border-radius:1rem; padding:1.15rem; min-width:0; display:flex; flex-direction:column; gap:.6rem; }
+.template-card h2,.template-card p { margin:0; }
+.template-card h2 { font-size:1.15rem; }
+.template-card small { color:#426b58; font-weight:650; }
+.template-card pre { max-height:18rem; overflow:auto; white-space:pre-wrap; overflow-wrap:anywhere; background:#f1f5f1; padding:.8rem; border-radius:.5rem; }
+.template-actions { display:flex; gap:.5rem; flex-wrap:wrap; margin-top:auto; }
+.template-actions button:first-child { background:#24584e; color:white; }
+@media(max-width:900px){.course-header > nav { display:none; }}

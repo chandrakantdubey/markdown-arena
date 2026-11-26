@@ -21,6 +21,11 @@ export default function Arena({ title, documentPath, source, exercise, topic }: 
     try { return localStorage.getItem(storageKey) ?? source }
     catch { return source }
   })
+  const [copyStatus, setCopyStatus] = useState('')
+  async function copyMarkdown(value: string) {
+    try { await navigator.clipboard.writeText(value); setCopyStatus('Copied Markdown') }
+    catch { setCopyStatus('Clipboard unavailable; select and copy the source manually.') }
+  }
   const [saveError, setSaveError] = useState(false)
   const [view, setView] = useState<'source' | 'preview'>(topic === undefined ? 'preview' : 'source')
   const [syncScroll, setSyncScroll] = useState(true)
@@ -44,7 +49,7 @@ export default function Arena({ title, documentPath, source, exercise, topic }: 
     const href = URL.createObjectURL(new Blob([content], { type: 'text/markdown;charset=utf-8' }))
     const link = document.createElement('a')
     link.href = href
-    link.download = 'README.md'
+    link.download = topic === 'profile-readme' ? 'README.md' : documentPath.split('/').pop() ?? 'notes.md'
     link.click()
     window.setTimeout(() => URL.revokeObjectURL(href), 1000)
   }
@@ -80,7 +85,7 @@ export default function Arena({ title, documentPath, source, exercise, topic }: 
           return true
         }} />}
         <details><summary>Hint, worked solution and self-check</summary>
-          <p>{exercise.hint}</p><pre><code>{exercise.solution}</code></pre><p>{exercise.review}</p>
+          <p>{exercise.hint}</p><button onClick={() => void copyMarkdown(exercise.solution)}>Copy worked solution</button><pre><code>{exercise.solution}</code></pre><p>{exercise.review}</p>
         </details>
       </section>}
       <div className="tools">
@@ -91,7 +96,9 @@ export default function Arena({ title, documentPath, source, exercise, topic }: 
         <label className="scroll-setting"><input type="checkbox" checked={syncScroll}
           onChange={event => setSyncScroll(event.target.checked)} /> Sync scrolling</label>
         <span role="status">{saveError ? 'Browser storage unavailable. Copy your draft before leaving.' : content === source ? '' : 'Draft saved on this device'}</span>
-        {topic === 'profile-readme' && <button onClick={downloadReadme}>Download README.md</button>}
+        <button onClick={() => void copyMarkdown(content)}>Copy Markdown</button>
+        <button onClick={downloadReadme}>{topic === 'profile-readme' ? 'Download README.md' : 'Download .md'}</button>
+        <span aria-live="polite">{copyStatus}</span>
         <button disabled={content === source} onClick={() => {
           if (window.confirm('Replace this draft with its original Markdown?')) edit(source)
         }}>Reset draft</button>

@@ -1,8 +1,14 @@
+![Markdown Arena logo](public/logo.svg)
+
 # Markdown Arena
 
 Learn Markdown by publishing a profile README, documenting a project and explaining technical work with media. The course works in two places. Read the lessons and workbooks here on GitHub, or run the React app to edit their source alongside a live preview.
 
 [Open the interactive course](https://markdown-arena.vercel.app/)
+
+## Ready-to-use templates
+
+[Open the template library](https://markdown-arena.vercel.app/templates) to search, copy and download profile READMEs, project documentation, API guides, runbooks, meeting notes and more. Replace all example values before publishing.
 
 ## Learning path
 

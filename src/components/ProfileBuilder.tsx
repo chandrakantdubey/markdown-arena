@@ -30,17 +30,22 @@ export default function ProfileBuilder({ onApply }: { onApply: (source: string) 
     if (Boolean(field('image')) !== Boolean(field('alt'))) {
       return setError('Include both the image link and a description, or clear both fields.')
     }
-    let url: string, image: string
+    let url: string, image: string, website: string, contact: string
     try {
       url = destination(field('url'))
       image = destination(field('image'))
+      website = destination(field('website'))
+      contact = destination(field('contact'))
     } catch { return setError('Use a full HTTP or HTTPS address without embedded account credentials.') }
 
-    const sections = ['# ' + name, bio]
+    const sections = ['# ' + (field('style') === 'friendly' ? 'Hello, I’m ' : '') + name, bio]
+    if (field('focus')) sections.push('## What I do', literal(field('focus')))
     if (image) sections.push('![' + literal(field('alt')) + '](' + image + ')')
     if (url) sections.push('## Featured project', '[' + literal(field('project')) + '](' + url + ')')
     const skills = field('skills').split(',').map(literal).filter(Boolean)
     if (skills.length) sections.push('## Tools I use', skills.map(skill => '- ' + skill).join('\n'))
+    if (field('collaboration')) sections.push('## Open to collaboration', literal(field('collaboration')))
+    if (website || contact) sections.push('## Find me', [website && '- [Portfolio](' + website + ')', contact && '- [Contact](' + contact + ')'].filter(Boolean).join('\n'))
     if (field('learning')) sections.push('## Currently learning', literal(field('learning')))
     setError('')
     if (onApply(sections.join('\n\n') + '\n')) setOpen(false)
@@ -51,12 +56,17 @@ export default function ProfileBuilder({ onApply }: { onApply: (source: string) 
       {open ? 'Close profile form' : 'Build from my details'}
     </button>
     <form id="profile-fields" hidden={!open} onSubmit={generate}>
+      <label>Profile style<select name="style"><option value="minimal">Minimal / professional</option><option value="friendly">Friendly introduction</option></select></label>
       <label>Display name<input name="name" required placeholder="Mira Shah" /></label>
       <label>One-line introduction<input name="bio" required placeholder="I build tools for documentation teams." /></label>
+      <label>Professional focus<input name="focus" placeholder="What problems do you solve?" /></label>
       <label>Featured project<input name="project" placeholder="Project title (optional)" /></label>
       <label>Project link<input name="url" type="url" placeholder="https://github.com/owner/project" /></label>
       <label>Tools I use<input name="skills" placeholder="TypeScript, Git, Python" /></label>
       <label>Currently learning<input name="learning" placeholder="What are you exploring?" /></label>
+      <label>Open to collaboration<input name="collaboration" placeholder="Projects or communities (optional)" /></label>
+      <label>Portfolio URL<input name="website" type="url" placeholder="https://example.com" /></label>
+      <label>Contact or social URL<input name="contact" type="url" placeholder="https://github.com/username" /></label>
       <label>Image URL<input name="image" type="url" placeholder="https://… (optional)" /></label>
       <label>Image description<input name="alt" placeholder="What does the image show?" /></label>
       {error && <p role="alert">{error}</p>}
