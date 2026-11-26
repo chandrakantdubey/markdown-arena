@@ -2,6 +2,8 @@
 
 Learn Markdown by building a release README. The course works in two places. Read the lessons and workbooks here on GitHub, or run the React app to edit their source alongside a live preview.
 
+[Open the interactive course](https://markdown-arena.vercel.app/)
+
 ## Learning path
 
 Start with the first lesson if Markdown is new to you. If you already write READMEs, try the capstone first and use its self-check to choose what to practice.

@@ -59,12 +59,12 @@ export default function Arena({ title, documentPath, source, exercise, topic }: 
     <main className="workspace">
       <div className="lesson-bar">
         <h1>{title}</h1>
-        {topic !== undefined ? <label>Exercise
-          <select value={topic} onChange={event => navigate(event.target.value ? '/arena?topic=' + event.target.value : '/arena')}>
+        {topic !== undefined ? <div className="exercise-picker"><label htmlFor="exercise-picker">Exercise</label>
+          <select id="exercise-picker" value={topic} onChange={event => navigate(event.target.value ? '/arena?topic=' + event.target.value : '/arena')}>
             <option value="">Free practice</option>
             {[...exercises].map(([id, item]) => <option key={id} value={id}>{item.title}</option>)}
           </select>
-        </label> : <Link to={next?.path ?? '/arena?topic=capstone'}>Next · {next?.title ?? 'Capstone'} →</Link>}
+        </div> : <Link to={next?.path ?? '/arena?topic=capstone'}>Next · {next?.title ?? 'Capstone'} →</Link>}
       </div>
       {exercise && <section aria-label="Exercise instructions" className="assignment">
         <p>{exercise.brief}</p>

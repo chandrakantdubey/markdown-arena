@@ -246,7 +246,7 @@ button:disabled { cursor: default; opacity: .5; }
 .lesson-bar, .tools { padding: .55rem clamp(.9rem, 3vw, 3rem); display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
 .lesson-bar { justify-content: space-between; }
 .lesson-bar h1 { margin: 0; font: 600 clamp(1.25rem, 2.6vw, 1.85rem)/1.25 Georgia, serif; }
-.lesson-bar label { display: flex; gap: .6rem; align-items: center; max-width: 100%; font-size: .875rem; }
+.exercise-picker { display: flex; gap: .6rem; align-items: center; max-width: 100%; font-size: .875rem; }
 .lesson-bar select { min-width: 0; max-width: 100%; background: white; color: inherit; border: 1px solid #b6c7bf; border-radius: .3rem; padding: .35rem; }
 .assignment { padding: 0 clamp(.9rem, 3vw, 3rem) .5rem; max-height: 31dvh; overflow: auto; }
 .assignment p { margin: .3rem 0; max-width: 92ch; }

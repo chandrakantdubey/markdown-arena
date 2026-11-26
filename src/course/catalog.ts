@@ -25,7 +25,9 @@ export const freePractice = '# My Markdown notebook\n\nTry a heading, a list, or
 export function courseLink(value: string, documentPath: string) {
   // Only translate relative workbook destinations. Keep ordinary authored URLs intact.
   if (!value || /^[a-z][a-z\d+.-]*:|^[#/?]/i.test(value)) return value
-  const url = new URL(value, 'https://course.invalid/' + documentPath)
+  const base = 'https://course.invalid/' + documentPath
+  if (!URL.canParse(value, base)) return value
+  const url = new URL(value, base)
   const chapter = chapters.find(item => url.pathname === `/lessons/${item.file}.md`)
   if (chapter) return chapter.path + url.search + url.hash
   const practice = /^\/practice\/([a-z-]+)\.md$/.exec(url.pathname)

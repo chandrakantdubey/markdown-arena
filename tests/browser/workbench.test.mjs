@@ -62,3 +62,18 @@ test('mobile preview renders footnote targets, tables, safe HTML and diagram rec
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true)
   } finally { await page.close() }
 })
+
+test('the published lessons draw all four diagram types and serve the image workbook asset', async () => {
+  const page = await browser.newPage()
+  try {
+    await page.goto(origin + '/visuals')
+    const diagrams = page.locator('article figure img')
+    await diagrams.nth(3).waitFor()
+    assert.equal(await diagrams.count(), 4)
+    await page.goto(origin + '/arena?topic=images')
+    const image = page.locator('article img')
+    await image.waitFor()
+    await image.evaluate(element => element.decode())
+    assert.ok(await image.evaluate(element => element.naturalWidth > 0))
+  } finally { await page.close() }
+})

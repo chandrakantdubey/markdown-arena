@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { PrismAsyncLight as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
 export default function CodeBlock({ language, value }: { language?: string; value: string }) {
