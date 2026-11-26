@@ -1,65 +1,36 @@
-import { useEffect, useRef, useState } from 'react';
-import mermaid from 'mermaid';
-
-interface MermaidDiagramProps {
-    chart: string;
-}
+import { useEffect, useState } from 'react'
+import mermaid from 'mermaid'
 
 mermaid.initialize({
-    startOnLoad: false,
-    theme: 'dark',
-    securityLevel: 'loose',
-});
+  startOnLoad: false,
+  securityLevel: 'strict',
+  theme: 'neutral',
+  suppressErrorRendering: true,
+  flowchart: { htmlLabels: false },
+})
 
-export default function MermaidDiagram({ chart }: MermaidDiagramProps) {
-    const ref = useRef<HTMLDivElement>(null);
-    const [svg, setSvg] = useState<string>('');
-    const [error, setError] = useState<string | null>(null);
+let renderId = 0
 
-    useEffect(() => {
-        let isMounted = true;
+export default function MermaidDiagram({ chart }: { chart: string }) {
+  const [result, setResult] = useState<{ chart: string; url?: string }>()
+  useEffect(() => {
+    let current = true
+    // Coalesce keystrokes before asking Mermaid to lay out a diagram.
+    const timer = setTimeout(async () => {
+      try {
+        const { svg } = await mermaid.render('arena-diagram-' + ++renderId, chart)
+        if (current) setResult({ chart, url: 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg) })
+      } catch {
+        if (current) setResult({ chart })
+      }
+    }, 180)
+    return () => { current = false; clearTimeout(timer) }
+  }, [chart])
 
-        const renderChart = async () => {
-            if (!chart) return;
-
-            try {
-                const id = `mermaid-${Math.random().toString(36).substr(2, 9)}`;
-                // mermaid.render returns an object { svg } in newer versions
-                const { svg } = await mermaid.render(id, chart);
-
-                if (isMounted) {
-                    setSvg(svg);
-                    setError(null);
-                }
-            } catch (err) {
-                if (isMounted) {
-                    console.error("Mermaid error:", err);
-                    setError("Failed to render diagram. Check syntax.");
-                }
-            }
-        };
-
-        renderChart();
-
-        return () => {
-            isMounted = false;
-        };
-    }, [chart]);
-
-    if (error) {
-        return (
-            <div className="p-4 border border-red-800 bg-red-900/20 text-red-300 rounded font-mono text-sm">
-                {error}
-                <pre className="mt-2 text-xs opacity-50">{chart}</pre>
-            </div>
-        );
-    }
-
-    return (
-        <div
-            ref={ref}
-            className="mermaid-diagram my-6 flex justify-center bg-slate-900/50 p-4 rounded-lg overflow-x-auto"
-            dangerouslySetInnerHTML={{ __html: svg }}
-        />
-    );
+  if (result?.chart !== chart) return <p role="status">Drawing diagram…</p>
+  return <figure>
+    {result.url ? <img src={result.url} alt="Mermaid diagram. Text source follows." /> :
+      <p role="status">Could not draw this diagram. Check the diagram type, labels and arrows.</p>}
+    <details><summary>Diagram source</summary><pre>{chart}</pre></details>
+  </figure>
 }
