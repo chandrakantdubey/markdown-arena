@@ -2,6 +2,8 @@
 
 Start with a reader and the decision they need to make. The same project can need a profile, a bug report, a review request and a runbook. Each document earns its place by helping someone take a different next step.
 
+Jump to the [writing task chooser](#choose-a-writing-task), [extended studios](#extended-writing-studios), [issue-to-release sequence](#follow-a-change-from-report-to-release), or [peer review method](#review-a-finished-document).
+
 ## Choose a writing task
 
 | Where the document lives | Who opens it | What they should be able to do | Workshop |

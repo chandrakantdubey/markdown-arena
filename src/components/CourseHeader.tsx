@@ -14,6 +14,7 @@ const groups = [
 ]
 
 export default function CourseHeader() {
+  const trigger = useRef<HTMLButtonElement>(null)
   const dialog = useRef<HTMLDialogElement>(null)
   const [query, setQuery] = useState('')
   const { pathname, search } = useLocation()
@@ -28,11 +29,17 @@ export default function CourseHeader() {
       <NavLink to="/arena">Practice</NavLink>
       <NavLink to="/reference">Reference</NavLink>
     </nav>
-    <button className="browse-button" aria-haspopup="dialog" onClick={() => {
+    <button ref={trigger} className="browse-button" aria-haspopup="dialog" onClick={() => {
       setQuery('')
       dialog.current?.showModal()
     }}>Browse course</button>
-    <dialog ref={dialog} className="course-directory" aria-labelledby="directory-title">
+    <dialog ref={dialog} onClose={() => trigger.current?.focus()} onKeyDown={event => {
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        dialog.current?.close()
+        trigger.current?.focus()
+      }
+    } className="course-directory" aria-labelledby="directory-title">
       <div className="directory-head"><h2 id="directory-title">Browse course</h2>
         <button onClick={() => dialog.current?.close()}>Close</button></div>
       <label htmlFor="directory-query">Find a lesson, tool or exercise</label>

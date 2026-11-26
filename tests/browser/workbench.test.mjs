@@ -146,6 +146,7 @@ test('mobile course directory supports filtering, keyboard dismissal and direct 
     await search.fill('no-such-topic')
     await page.getByText('No matches.', { exact: false }).waitFor()
     await page.keyboard.press('Escape')
+    await page.getByRole('dialog').waitFor({ state: 'hidden' })
     assert.equal(await browse.evaluate(button => document.activeElement === button), true)
     await browse.click()
     await search.fill('paginated')
